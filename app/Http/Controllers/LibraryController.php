@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Library;
+use Auth;
+use App\Models\Library;
 use Illuminate\Http\Request;
 
 class LibraryController extends Controller
 {
+    public function __construct(Library $library){
+        $this->library = $library;
+
+        $this->middleware('auth')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +41,15 @@ class LibraryController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [];
+        $rules = [
+            'name' => 'required | string',
+            'location' => 'string | required',
+        ];
+        $this->validate($request, $rules);
+        $request['user_id'] = Auth::id();
+
+        $this->library->create($request->except(['_token']));
+
         return $request;
     }
 

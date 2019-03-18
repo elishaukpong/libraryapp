@@ -15,6 +15,13 @@ class CreateLibrariesTable extends Migration
     {
         Schema::create('libraries', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
+
+            $table->string('name');
+            $table->string('location');
+            $table->string('email');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }
