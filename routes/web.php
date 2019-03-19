@@ -20,4 +20,8 @@ Auth::routes(['verify' => true]);
 // Library
 Route::resource('library', 'LibraryController');
 
+Route::get('categories/create', 'LibrarySectionController@create')->name('categories.create');
+Route::post('categories', 'LibrarySectionController@store')->name('categories.store');
+Route::get('{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
+
 Route::get('/home', 'HomeController@index')->name('home');

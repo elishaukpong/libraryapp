@@ -1,0 +1,14 @@
+.lib-head {
+    height: 3em;
+    width: 3em;
+    background: blue;
+    padding: .85em 0 2em;
+    border-radius: 50%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+
+/* .card-lib {
+    background-image: linear-gradient(135deg, white 50%, rgba(0, 0, 255, 0.381) 50%);
+} */

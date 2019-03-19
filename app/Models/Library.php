@@ -10,6 +10,14 @@ class Library extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'location', 'email'
+        'name', 'location', 'email', 'user_id', 'slug',
     ];
+
+    public function getInitialAttribute(){
+        return substr($this->name, 0, 1);
+    }
+
+    public function sections(){
+        return $this->hasMany('App\Models\LibrarySection');
+    }
 }

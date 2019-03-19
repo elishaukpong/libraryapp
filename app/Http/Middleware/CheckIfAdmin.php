@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use Auth;
+use Session;
 use Closure;
 
 class CheckIfAdmin
@@ -13,7 +15,7 @@ class CheckIfAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
           if (Auth::guard($guard)->check()) {
             if (!Auth::user()->admin) {
