@@ -15,5 +15,21 @@
             </div>
         </div>
     @endforeach
+    @auth
+        @if(Auth::user()->isAdmin)
+            <div class="col-md-3 col-12">
+                <div class="card">
+                    <div class="card-body text-center">
+
+                        <h1 class="text-white lib-head mb-4 mt-3">+</h1>
+                        <br>
+                        <p> Add New Library</p>
+
+                        <a href="{{route('library.create')}}" class="btn btn-sm btn-success">Add Library</a>
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endauth
 </div>
 @endsection

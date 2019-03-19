@@ -40,8 +40,10 @@ class LibrarySectionController extends Controller
         $this->validate($request, $rules);
         $request['slug'] = str_slug($request->name);
 
+        $library = $this->library->whereId($request->library_id)->first();
+
         $this->librarySection->create($request->except(['_token']));
-        return redirect()->back();
+        return redirect()->route('library.show', $library->slug );
     }
 
     /**

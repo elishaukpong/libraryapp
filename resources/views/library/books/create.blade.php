@@ -36,7 +36,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <textarea id="description" type="text" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description"
-                                            value="{{ old('description') }}" required placeholder="Book Description"> </textarea>
+                                        required placeholder="Book Description"> {{ old('description') }} </textarea>
                                         @if ($errors->has('description'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('description') }}</strong>
@@ -47,16 +47,28 @@
 
                                 <div class="form-group row">
                                     <div class="col-md-12">
-                                        <p>Tags</p>
-                                        @foreach($tags as $key => $tag)
-                                            <div class="form-check form-check-inline border border-secondary text-secondary rounded px-3 py-2">
-                                                <input class="form-check-input" type="checkbox" id="inlineCheckbox{{$key}}" name="tags[]" value="{{$tag->id}}">
-                                                <label class="form-check-label" for="inlineCheckbox{{$key}}">{{$tag->name}}</label>
-                                            </div>
-                                        @endforeach
-
+                                        <input id="availableCopies" type="number" class="form-control{{ $errors->has('availableCopies') ? ' is-invalid' : '' }}" name="availableCopies"
+                                            value="{{ old('availableCopies') }}" required placeholder="Number of Copies"> </input> @if ($errors->has('availableCopies'))
+                                        <span class="invalid-feedback" role="alert">
+                                                                                <strong>{{ $errors->first('availableCopies') }}</strong>
+                                                                            </span> @endif
                                     </div>
                                 </div>
+
+                                @if($tags->count() > 0)
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <p>Tags</p>
+                                            @foreach($tags as $key => $tag)
+                                                <div class="form-check form-check-inline border border-secondary text-secondary rounded px-3 py-2">
+                                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox{{$key}}" name="tags[]" value="{{$tag->id}}">
+                                                    <label class="form-check-label" for="inlineCheckbox{{$key}}">{{$tag->name}}</label>
+                                                </div>
+                                            @endforeach
+
+                                        </div>
+                                    </div>
+                                @endif
 
                                 <div class="form-group">
                                     <input type="file" name="book_avatar" id="book_avatar">

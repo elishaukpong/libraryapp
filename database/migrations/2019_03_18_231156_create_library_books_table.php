@@ -17,8 +17,10 @@ class CreateLibraryBooksTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->text('description');
+            $table->string('slug');
+            $table->string('avatar');
             $table->integer('availableCopies');
-            $table->integer('borrowedCopies');
+            $table->integer('borrowedCopies')->default(0);
 
             $table->softDeletes();
             $table->timestamps();

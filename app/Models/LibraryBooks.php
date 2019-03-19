@@ -7,7 +7,15 @@ use App\Models\LibrarySections;
 
 class LibraryBooks extends Model
 {
+    protected $fillable = [
+        'name', 'description', 'book_avatar', 'availableCopies', 'borrowedCopies', 'slug', 'avatar',
+    ];
+
      public function sections(){
         return $this->belongsToMany('App\Models\LibrarySections', 'library_books_library_sections');
+    }
+
+    public function getAvatarAttribute($value){
+          return 'storage/avatars/' . $value;
     }
 }

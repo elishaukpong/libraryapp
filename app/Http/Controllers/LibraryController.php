@@ -11,7 +11,7 @@ class LibraryController extends Controller
 {
     public function __construct(Library $library){
         $this->library = $library;
-        $this->middleware(['auth', 'admin'])->except(['index']);
+        $this->middleware(['auth', 'admin'])->except(['index', 'show']);
     }
     /**
      * Display a listing of the resource.
