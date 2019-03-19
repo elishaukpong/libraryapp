@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\LibraryBooks;
+use App\Models\LibraryBooks;
+use App\Models\LibrarySection;
 use Illuminate\Http\Request;
 
 class LibraryBooksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function __construct(LibrarySection $librarySection, LibraryBooks $libraryBooks)
     {
-        //
+        $this->librarySection = $librarySection;
+        $this->libraryBooks = $libraryBooks;
     }
 
     /**
@@ -22,9 +20,10 @@ class LibraryBooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($sectionSlug)
     {
-        //
+        $data['librarySection'] = $this->librarySection->whereSlug($sectionSlug)->first();
+        return view('library.books.create', $data);
     }
 
     /**
@@ -35,7 +34,21 @@ class LibraryBooksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required | string',
+            'description' => 'required | string',
+            'book_avatar' => 'image | required | max:1024'
+        ];
+        $messages = [
+            'book_avatar.required' => 'Common, You gotta attach an image, I know you got one!',
+            'name.required' => 'I know this book you wanna add has a name, give it a name, mahn!',
+            'description.required' => 'If you can not construct a description, why not copy "about the book?" Do it mahn!'
+        ];
+
+        $this->validate($request, $rules, $messages);
+
+        
+        return $request;
     }
 
     /**

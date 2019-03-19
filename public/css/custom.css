@@ -8,6 +8,29 @@
     margin: 0 auto;
 }
 
+.add-book {
+    border-radius: 50%;
+    width: 30em;
+    height: 13em;
+    border-width: 2px !important;
+}
+
+#book_avatar {
+    display: none;
+}
+
+.img-select {
+    padding: 1em 1.2em;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    right: 1em;
+}
+
+.form-check input[type='checkbox'] {
+    zoom: 1.5;
+}
+
 
 /* .card-lib {
     background-image: linear-gradient(135deg, white 50%, rgba(0, 0, 255, 0.381) 50%);

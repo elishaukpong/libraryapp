@@ -18,10 +18,22 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 // Library
-Route::resource('library', 'LibraryController');
+Route::resource('/library', 'LibraryController');
+// Tags
+Route::resource('/tags', 'TagsController');
+// Admin
+Route::resource('admin', 'AdminController');
 
-Route::get('categories/create', 'LibrarySectionController@create')->name('categories.create');
-Route::post('categories', 'LibrarySectionController@store')->name('categories.store');
-Route::get('{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
+
+Route::get('/categories/create', 'LibrarySectionController@create')->name('categories.create');
+Route::post('/categories', 'LibrarySectionController@store')->name('categories.store');
+Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
+
+// Books
+Route::get('/{sectionSlug}/books/create', 'LibraryBooksController@create')->name('books.create');
+Route::post('/books', 'LibraryBooksController@store')->name('books.store');
+
+// Route::resource('/tags', 'TagsController@create');
+// Route::post('/tags', 'TagsController@store')->name('tags.store');
 
 Route::get('/home', 'HomeController@index')->name('home');
