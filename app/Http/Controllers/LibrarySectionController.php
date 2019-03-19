@@ -11,7 +11,7 @@ class LibrarySectionController extends Controller
      public function __construct(Library $library, LibrarySection $librarySection){
         $this->library = $library;
         $this->librarySection = $librarySection;
-        $this->middleware(['auth', 'admin'])->except(['index']);
+        $this->middleware(['auth', 'admin'])->except(['index', 'show']);
     }
 
     /**
@@ -40,8 +40,10 @@ class LibrarySectionController extends Controller
         $this->validate($request, $rules);
         $request['slug'] = str_slug($request->name);
 
+        $library = $this->library->whereId($request->library_id)->first();
+
         $this->librarySection->create($request->except(['_token']));
-        return redirect()->back();
+        return redirect()->route('library.show', $library->slug );
     }
 
     /**
