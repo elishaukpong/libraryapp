@@ -11,7 +11,7 @@ class LibrarySectionController extends Controller
      public function __construct(Library $library, LibrarySection $librarySection){
         $this->library = $library;
         $this->librarySection = $librarySection;
-        $this->middleware(['auth', 'admin'])->except(['index']);
+        $this->middleware(['auth', 'admin'])->except(['index', 'show']);
     }
 
     /**
