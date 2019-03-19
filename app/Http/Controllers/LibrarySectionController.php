@@ -2,26 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use Faker;
 use App\Models\Library;
+use App\Models\LibrarySection;
 use Illuminate\Http\Request;
 
-class LibraryController extends Controller
+class LibrarySectionController extends Controller
 {
-    public function __construct(Library $library){
+     public function __construct(Library $library, LibrarySection $librarySection){
         $this->library = $library;
+        $this->librarySection = $librarySection;
         $this->middleware(['auth', 'admin'])->except(['index']);
-    }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $data['libraries'] = $this->library->all();
-        return view('library.index', $data);
     }
 
     /**
@@ -31,7 +21,8 @@ class LibraryController extends Controller
      */
     public function create()
     {
-        return view('library.create');
+        $data['libraries'] = $this->library->all();
+        return view('library.categories.create', $data);
     }
 
     /**
@@ -43,36 +34,35 @@ class LibraryController extends Controller
     public function store(Request $request)
     {
         $rules = [
-            'name' => 'required | string',
-            'location' => 'string | required',
+            'name' => 'string | required',
+            'library_id' => 'integer | required'
         ];
         $this->validate($request, $rules);
-        $request['user_id'] = Auth::id();
         $request['slug'] = str_slug($request->name);
-        $this->library->create($request->except(['_token']));
 
-        return Redirect()->route('library.index');
+        $this->librarySection->create($request->except(['_token']));
+        return redirect()->back();
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Library  $library
+     * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function show($librarySlug)
+    public function show($librarySlug, $sectionSlug)
     {
-       $data['library'] = $this->library->whereSlug($librarySlug)->with('sections')->first();
-        return view('library.categories.index', $data);
+        $data['librarySection'] = $this->library->whereSlug($librarySlug)->first()->sections()->whereSlug($sectionSlug)->first();
+        return view('library.books.index', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Library  $library
+     * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function edit(Library $library)
+    public function edit(LibrarySection $librarySection)
     {
         //
     }
@@ -81,10 +71,10 @@ class LibraryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Library  $library
+     * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Library $library)
+    public function update(Request $request, LibrarySection $librarySection)
     {
         //
     }
@@ -92,10 +82,10 @@ class LibraryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Library  $library
+     * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Library $library)
+    public function destroy(LibrarySection $librarySection)
     {
         //
     }

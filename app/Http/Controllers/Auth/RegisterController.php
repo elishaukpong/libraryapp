@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Faker;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -10,6 +11,17 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+        $this->faker = Faker\Factory::create();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -30,15 +42,7 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -67,6 +71,20 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'libraryNumber' => $this->libraryNumberGenerator($data['name']),
         ]);
+    }
+
+    public function libraryNUmberGenerator($name){
+        $names = explode(" ", $name);
+        $initials = "";
+
+        foreach($names as $name){
+            $initials .= substr($name, 0, 1);
+        }
+
+        $randomDigit = $this->faker->randomNumber(6);
+        $libraryNumber = $randomDigit . $initials;
+        return $libraryNumber;
     }
 }
