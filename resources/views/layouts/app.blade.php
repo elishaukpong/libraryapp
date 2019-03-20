@@ -84,17 +84,21 @@
                                 <div class="text-center">
                                     <h4>Recently Visited Books</h3>
                                 </div>
+                                @if(Auth::user() && Auth::user()->recents->count())
                                 <ul class="list-group">
                                     @foreach( Auth::user()->recents as $recent)
-                                        <li class="list-group-item">
-                                            <p> {{$recent->book->name}}</p>
-                                            {{-- <p> {{$recent->book->sections}}</p> --}}
-                                            @foreach($recent->book->sections as $section)
-                                            <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
-                                            @endforeach
-                                        </li>
+                                    <li class="list-group-item">
+                                        <p> {{$recent->book->name}}</p>
+                                        {{--
+                                        <p> {{$recent->book->sections}}</p> --}} @foreach($recent->book->sections as $section)
+                                        <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
+                                        @endforeach
+                                    </li>
                                     @endforeach
                                 </ul>
+
+                                @endif
+
                             </div>
                         </div>
 
