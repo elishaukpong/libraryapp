@@ -3,14 +3,15 @@
 @section('content')
 <div class="row">
     @foreach($librarySection->books as $libraryBook)
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 my-4">
             <div class="card">
                 <div class="card-body">
                     <img src="{{asset($libraryBook->avatar)}}" class="img-fluid add-book form-control" alt="">
                     <h1 class="text-center my-3">{{$libraryBook->name}}</h1>
-                    <button type="button" class="btn btn-primary btn-sm form-control" data-toggle="collapse" data-target="#{{$libraryBook->slug}}">
+                    <a href="{{route('books.show', [$librarySection->library->slug, $librarySection->slug, $libraryBook->slug])}}" class="btn btn-sm btn-primary form-control">See More</a>
+                    {{-- <button type="button" class="btn btn-primary btn-sm form-control" data-toggle="collapse" data-target="#{{$libraryBook->slug}}">
                         See More
-                    </button>
+                    </button> --}}
                     <div id="{{$libraryBook->slug}}" class="collapse my-3">
                         <p>{{$libraryBook->description}}</p>
                         <p><span class="font-weight-bold">Copies Available:</span> {{$libraryBook->availableCopies}}</p>
@@ -25,7 +26,7 @@
     @endforeach
     @auth
     @if(Auth::user()->isAdmin)
-    <div class="col-md-3 col-12">
+    <div class="col-md-3 col-12 my-4">
         <div class="card">
             <div class="card-body text-center">
 

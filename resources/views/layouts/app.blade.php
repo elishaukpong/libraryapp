@@ -76,9 +76,30 @@
         </nav>
 
         <main class="py-4">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-3 my-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h4>Recently Visited Books</h3>
+                                </div>
+                                <ul class="list-group">
+                                    @foreach( Auth::user()->recents as $recent)
+                                        <li class="list-group-item">
+                                            <p> {{$recent->book->name}}</p>
+                                            {{-- <p> {{$recent->book->sections}}</p> --}}
+                                            @foreach($recent->book->sections as $section)
+                                            <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
+                                            @endforeach
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-9">
                         @yield('content')
                     </div>
                 </div>

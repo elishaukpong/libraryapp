@@ -2,11 +2,11 @@ $(document).ready(function() {
     $('#img-select').click(function(e) {
         e.preventDefault();
         $('#book_avatar').trigger('click');
+        showImage(src, target);
     });
 
     var src = document.getElementById("book_avatar");
     var target = document.getElementById("target");
-    showImage(src, target);
 
     function showImage(src, target) {
         var fr = new FileReader();

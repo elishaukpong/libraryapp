@@ -32,6 +32,8 @@ Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->nam
 // Books
 Route::get('/{sectionSlug}/books/create', 'LibraryBooksController@create')->name('books.create');
 Route::post('/books', 'LibraryBooksController@store')->name('books.store');
+Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/details', 'LibraryBooksController@show')->name('books.show');
+Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/recent', 'LibraryBooksController@recent')->name('books.recent');
 
 // Route::resource('/tags', 'TagsController@create');
 // Route::post('/tags', 'TagsController@store')->name('tags.store');

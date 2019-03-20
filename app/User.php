@@ -31,4 +31,8 @@ class User extends Authenticatable
     public function getisAdminAttribute(){
         return $this->admin;
     }
+
+    public function recents(){
+        return $this->hasMany('App\Models\Recentbooks');
+    }
 }

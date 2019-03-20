@@ -47,6 +47,7 @@ class LibraryController extends Controller
             'location' => 'string | required',
         ];
         $this->validate($request, $rules);
+
         $request['user_id'] = Auth::id();
         $request['slug'] = str_slug($request->name);
         $this->library->create($request->except(['_token']));
