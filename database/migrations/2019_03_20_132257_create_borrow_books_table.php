@@ -16,7 +16,7 @@ class CreateBorrowBooksTable extends Migration
         Schema::create('borrow_books', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $tabe->integer('book_id');
+            $table->integer('book_id');
             $table->date('return_date')->default(\Carbon\Carbon::now()->addWeeks(2));
             $table->boolean('returned');
             $table->timestamps();

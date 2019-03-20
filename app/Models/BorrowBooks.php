@@ -9,9 +9,9 @@ class BorrowBooks extends Model
     protected $fillable = [
         'user_id', 'library_book_id', 'returned'
     ];
+
+    protected $dates = [
+        'return_date'
+    ];
+
 }
- $table->increments('id');
-            $table->integer('user_id');
-            $tabe->integer('book_id');
-            $table->date('return_date')->default(\Carbon\Carbon::now()->addWeeks(2));
-            $table->timestamps();
