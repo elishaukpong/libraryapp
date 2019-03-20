@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use App\BorrowBooks;
+use App\Models\BorrowBooks;
 use App\Models\Library;
 use App\Models\LibraryBooks;
 use Illuminate\Http\Request;
@@ -39,7 +39,16 @@ class BorrowBooksController extends Controller
         $librarySection = $library->sections()->whereSlug($librarySectionSlug)->first();
         $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
 
+        $borrowedBook = new BorrowBooks;
+        $borrowedBook->book_id = $librarySectionBook->id;
 
+        Auth::user()->borrowedBooks()->save($borrowedBook);
+        $librarySectionBook->update([
+            'availableCopies' => $librarySectionBook->availableCopies - 1,
+            'borrowedCopies' => $librarySectionBook->borrowedCopies + 1,
+        ]);
+
+        return redirect()->back();
     }
 
     /**

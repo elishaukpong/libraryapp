@@ -35,4 +35,8 @@ class User extends Authenticatable
     public function recents(){
         return $this->hasMany('App\Models\Recentbooks');
     }
+
+    public function borrowedBooks(){
+        return $this->hasMany('App\Models\BorrowBooks');
+    }
 }

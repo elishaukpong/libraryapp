@@ -18,7 +18,7 @@ class CreateBorrowBooksTable extends Migration
             $table->integer('user_id');
             $table->integer('book_id');
             $table->date('return_date')->default(\Carbon\Carbon::now()->addWeeks(2));
-            $table->boolean('returned');
+            $table->boolean('returned')->default(0);
             $table->timestamps();
         });
     }
