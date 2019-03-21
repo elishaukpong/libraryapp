@@ -106,6 +106,16 @@ class LibraryController extends Controller
      */
     public function destroy(Library $library)
     {
-        //
+        foreach($library->sections as $section){
+            // foreach($section->books as $book){
+            //     $book->delete();
+            // }
+
+            $section->delete();
+        };
+
+        $library->delete();
+
+        return redirect()->route('library.index');
     }
 }

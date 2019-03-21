@@ -56,8 +56,17 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Update') }}
                                 </button>
+                                <button type="submit" class="btn btn-danger" id="delete_library">
+                                    {{ __('Delete') }}
+                                </button>
                             </div>
                         </div>
+                    </form>
+
+                    <form method="POST" action="{{route('library.destroy', $library->id)}}" id="delete_library_form">
+                        @csrf
+                        @method('DELETE')
+
                     </form>
                 </div>
             </div>

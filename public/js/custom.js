@@ -38,4 +38,8 @@ $(document).ready(function() {
         }
     })
 
+    $('#delete_library').click(function(e) {
+        e.preventDefault()
+        $('#delete_library_form').submit();
+    })
 });
