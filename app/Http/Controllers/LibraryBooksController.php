@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LibraryBooks;
-use App\Models\Tags;
-use App\Models\Recentbooks;
 use Auth;
-use App\Models\LibrarySection;
+use Session;
+use App\Models\Tags;
 use App\Models\Library;
+use App\Models\Recentbooks;
+use App\Models\LibraryBooks;
 use Illuminate\Http\Request;
+use App\Models\LibrarySection;
 
 class LibraryBooksController extends Controller
 {
@@ -69,13 +70,13 @@ class LibraryBooksController extends Controller
         $book->name = $request->name;
         $book->description = $request->description;
         $book->slug = $slug;
+        $book->book_id = str_random(5) . rand(10, 90);
         $book->avatar = $imageName;
         $book->availableCopies = $request->availableCopies;
-        $book->save();
 
         $request->book_avatar->storeAs('public/avatars/', $imageName);
 
-        $librarySection->books()->attach($book);
+        $librarySection->books()->save($book);
 
         return redirect()->route('section.show',[$librarySection->library->slug,$librarySection->slug]);
     }
@@ -118,7 +119,9 @@ class LibraryBooksController extends Controller
 
             if(!in_array($librarySectionBook->id, $recentBookId)){
                 $recent = new Recentbooks;
-                $recent->book_id =  $librarySectionBook->id;
+                $recent->library_id = $library->id;
+                $recent->library_section_id = $librarySection->id;
+                $recent->book_id = $librarySectionBook->id;
 
                 Auth::user()->recents()->save($recent);
             }
@@ -132,9 +135,11 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function edit(LibraryBooks $libraryBooks)
+    public function edit($bookId)
     {
-        //
+        $data['librarySectionBook'] = $this->libraryBooks->whereBookId($bookId)->first();
+        $data['tags'] = $this->tags->all();
+        return view('library.books.edit', $data);
     }
 
     /**
@@ -144,9 +149,38 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, LibraryBooks $libraryBooks)
+    public function update(Request $request, LibraryBooks $bookId)
     {
-        //
+        $rules = [
+            'name' => 'required | string',
+            'description' => 'required | string',
+            'book_avatar' => 'image |  max:1024',
+            'availableCopies' => 'integer | required'
+        ];
+
+        $messages = [
+            'name.required' => 'I know this book you wanna add has a name, give it a name, mahn!',
+            'description.required' => 'If you can not construct a description, why not copy "about the book?" Do it mahn!'
+        ];
+
+        $this->validate($request, $rules, $messages);
+        $slug = str_slug($request['name']);
+
+        if($request->hasFile('book_avatar')){
+            $image = $request->file('book_avatar');
+            $imageName = $slug . '.' . time() . '.' . $image->getClientOriginalExtension();
+            $request->book_avatar->storeAs('public/avatars/', $imageName);
+            // Storage::disk('public')->delete('/avatars/'.$bookId->avatar);  //not working now
+            $bookId->avatar = $imageName;
+        }
+
+        $bookId->name = $request->name;
+        $bookId->description = $request->description;
+        $bookId->slug = $slug;
+        $bookId->availableCopies = $request->availableCopies;
+        $bookId->update();
+
+        return redirect()->back();
     }
 
     /**
@@ -155,9 +189,30 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LibraryBooks $libraryBooks)
+    public function destroy(LibraryBooks $bookId)
     {
-        //
+        $borrowedBooks =  $bookId->borrowed()->get();
+        $recentBooks =  $bookId->recents()->get();
+        $librarySlug = $bookId->sections->library->slug;
+        $sectionSlug = $bookId->sections->slug;
+
+        foreach($borrowedBooks as $borrowedBook){
+            // Check if any book remains borrowed
+            if($borrowedBook->returned == 0){
+                Session::flash('error', 'Can not delete until all books are returned!');
+                return redirect()->back();
+            }
+            $borrowedBook->delete();
+        }
+
+        foreach($recentBooks as $recentBook){
+            $recentBook->delete();
+        }
+        $bookId->delete();
+
+        Session::flash('success', 'Book Deleted!');
+        return redirect()->route('section.show', [$librarySlug, $sectionSlug]);
+
     }
 
 

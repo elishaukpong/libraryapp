@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Library;
 use App\Models\LibrarySection;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ class LibrarySectionController extends Controller
         ];
         $this->validate($request, $rules);
         $request['slug'] = str_slug($request->name);
+        $request['section_id'] = str_random(3) . rand(10, 90);
 
         $library = $this->library->whereId($request->library_id)->first();
 
@@ -64,9 +66,11 @@ class LibrarySectionController extends Controller
      * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function edit(LibrarySection $librarySection)
+    public function edit($librarySlug, $sectionSlug)
     {
-        //
+        $data['librarySection'] = $this->library->whereSlug($librarySlug)->first()->sections()->whereSlug($sectionSlug)->first();
+        $data['libraries'] = $this->library->all();
+        return view('library.categories.edit', $data);
     }
 
     /**
@@ -78,7 +82,15 @@ class LibrarySectionController extends Controller
      */
     public function update(Request $request, LibrarySection $librarySection)
     {
-        //
+         $rules = [
+            'name' => 'string | required',
+            'library_id' => 'integer | required'
+        ];
+        $this->validate($request, $rules);
+        $request['slug'] = str_slug($request->name);
+        $librarySection->update($request->except(['_token', '_method']));
+
+        return redirect()->route('library.show', $librarySection->library->slug);
     }
 
     /**
@@ -89,6 +101,33 @@ class LibrarySectionController extends Controller
      */
     public function destroy(LibrarySection $librarySection)
     {
-        //
+        $books = $librarySection->books()->get();
+        $librarySlug = $librarySection->library->slug;
+
+        // Iterate over the books
+        foreach($books as $book){
+
+            $borrowedBooks =  $book->borrowed()->get();
+            $recentBooks =  $book->recents()->get();
+
+            foreach($borrowedBooks as $borrowedBook){
+                // Check if any book remains borrowed
+                if($borrowedBook->returned == 0){
+                    Session::flash('error', 'Can not delete section until all books are returned!');
+                    return redirect()->back();
+                }
+                $borrowedBook->delete();
+            }
+
+            foreach($recentBooks as $recentBook){
+                $recentBook->delete();
+            }
+
+        }
+
+        $librarySection->delete();
+
+        Session::flash('success', 'Section deleted');
+        return redirect()->route('library.show', $librarySlug);
     }
 }

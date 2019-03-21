@@ -15,6 +15,9 @@ class CreateLibraryBooksTable extends Migration
     {
         Schema::create('library_books', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('library_section_id');
+            $table->string('book_id')->unique();
+
             $table->string('name');
             $table->text('description');
             $table->string('slug');

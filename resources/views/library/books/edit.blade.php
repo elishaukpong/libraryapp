@@ -2,14 +2,14 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Add Book to ') }} {{$librarySection->name}} Section</div>
+                <div class="card-header">{{ __('Edit Book') }}</div>
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            <img src="{{asset('img/book.jpg')}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
+                            <img src="{{asset($librarySectionBook->avatar)}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
                             @if ($errors->has('book_avatar'))
                             <span class="invalid-feedback text-center" role="alert">
                                 <strong>{{ $errors->first('book_avatar') }}</strong>
@@ -20,12 +20,13 @@
 
                         </div>
                         <div class="col-md-8 col-12">
-                            <form method="POST" action="{{route('books.store')}}" enctype="multipart/form-data">
+                            <form method="POST" action="{{route('book.update', $librarySectionBook->id)}}" enctype="multipart/form-data">
                                 @csrf
+                                @method('PATCH')
 
                                 <div class="form-group row mt-4">
                                     <div class="col-md-12">
-                                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}"
+                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $librarySectionBook->name }}"
                                             required autofocus placeholder="Book Name"> @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -36,7 +37,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <textarea id="description" type="text" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" name="description"
-                                        required placeholder="Book Description"> {{ old('description') }} </textarea>
+                                        required placeholder="Book Description"> {{$librarySectionBook->description }} </textarea>
                                         @if ($errors->has('description'))
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('description') }}</strong>
@@ -48,7 +49,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-12">
                                         <input id="availableCopies" type="number" class="form-control{{ $errors->has('availableCopies') ? ' is-invalid' : '' }}" name="availableCopies"
-                                            value="{{ old('availableCopies') }}" required placeholder="Number of Copies"> </input> @if ($errors->has('availableCopies'))
+                                            value="{{ $librarySectionBook->availableCopies }}" required placeholder="Number of Copies"> </input> @if ($errors->has('availableCopies'))
                                         <span class="invalid-feedback" role="alert">
                                                                                 <strong>{{ $errors->first('availableCopies') }}</strong>
                                                                             </span> @endif
@@ -73,17 +74,23 @@
                                 <div class="form-group">
                                     <input type="file" name="book_avatar" id="book_avatar">
                                 </div>
-                                <div class="form-group">
-                                    <input type="hidden"  name="library_section_id" value="{{$librarySection->id}}">
-                                </div>
+
 
                                 <div class="form-group row">
-                                    <div class="col-md-6 mx-auto">
-                                        <button type="submit" class="btn btn-primary form-control">
-                                            {{ __('Add Book') }}
+                                    <div class="col-md-8 offset-md-2">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Update Book') }}
+                                        </button>
+                                        <button type="submit" class="btn btn-danger" id="delete_library">
+                                            {{ __('Delete') }}
                                         </button>
                                     </div>
+
                                 </div>
+                            </form>
+                            <form method="POST" action="{{route('book.destroy', $librarySectionBook->id)}}" id="delete_library_form">
+                                @csrf @method('DELETE')
+
                             </form>
                         </div>
                     </div>
