@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Faker;
+use Session;
 use App\Models\Library;
 use Illuminate\Http\Request;
 
@@ -95,7 +96,7 @@ class LibraryController extends Controller
         $this->validate($request, $rules);
 
         $library->update($request->except(['_token', '_method']));
-        return redirect()->back();
+        return redirect()->route('library.show', $library->slug);
     }
 
     /**
@@ -106,16 +107,40 @@ class LibraryController extends Controller
      */
     public function destroy(Library $library)
     {
-        foreach($library->sections as $section){
-            // foreach($section->books as $book){
-            //     $book->delete();
-            // }
+        // get a total list of sections in the library
+        $sections =  $library->sections()->get();
+
+        // Iterate over the sections
+        foreach($sections as $section){
+            // Get all books for a section
+            $books = $section->books()->get();
+
+            // Iterate over the books
+            foreach($books as $book){
+
+                $borrowedBooks =  $book->borrowed()->get();
+                $recentBooks =  $book->recents()->get();
+
+                foreach($borrowedBooks as $borrowedBook){
+                    // Check if any book remains borrowed
+                    if($borrowedBook->returned == 0){
+                        Session::flash('error', 'Can not delete library until all books are returned!');
+                        return redirect()->back();
+                    }
+                }
+
+                $borrowedBooks->delete();
+                $recentBooks->delete();
+
+            }
 
             $section->delete();
-        };
-
+        }
+        return 2;
+        $library->sections()->delete();
         $library->delete();
 
+        Session::flash('success', 'Library deleted');
         return redirect()->route('library.index');
     }
 }

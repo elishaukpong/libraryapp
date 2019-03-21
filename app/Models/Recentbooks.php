@@ -14,6 +14,14 @@ class Recentbooks extends Model
         return $this->belongsto('App\User');
     }
 
+    public function library(){
+        return $this->belongsTo('App\Models\Library');
+    }
+
+    public function section(){
+        return $this->belongsTo('App\Models\LibrarySection');
+    }
+
     public function book(){
         return $this->belongsto('App\Models\LibraryBooks');
     }

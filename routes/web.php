@@ -25,8 +25,11 @@ Route::resource('/tags', 'TagsController');
 Route::resource('admin', 'AdminController');
 
 
+// Route::resource('/categories', 'LibrarySectionController');
 Route::get('/categories/create', 'LibrarySectionController@create')->name('categories.create');
 Route::post('/categories', 'LibrarySectionController@store')->name('categories.store');
+Route::get('/{librarySlug}/{sectionSlug}/edit', 'LibrarySectionController@edit')->name('categories.edit');
+Route::patch('/categories/{librarySection}', 'LibrarySectionController@update')->name('categories.update');
 Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
 
 // Books

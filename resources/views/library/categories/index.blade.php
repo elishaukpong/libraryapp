@@ -11,6 +11,9 @@
                     <p><span class="font-weight-bold">Number Of Books:</span> {{$librarySection->books()->count()}}</p>
 
                     <a href="{{route('section.show', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-success">Enter Section</a>
+                    @if(Auth::user()->isAdmin)
+                        <a href="{{route('categories.edit', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-primary">EditSection</a>
+                    @endif
                 </div>
             </div>
         </div>

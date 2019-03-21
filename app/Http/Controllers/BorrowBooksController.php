@@ -53,6 +53,8 @@ class BorrowBooksController extends Controller
         }
 
         $borrowedBook = new BorrowBooks;
+        $borrowedBook->library_id = $library->id;
+        $borrowedBook->library_section_id = $librarySection->id;
         $borrowedBook->book_id = $librarySectionBook->id;
 
         Auth::user()->borrowedBooks()->save($borrowedBook);

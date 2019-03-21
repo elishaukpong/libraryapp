@@ -35,4 +35,5 @@
         @endif
     @endauth
 </div>
+{{Session::get('error')}}
 @endsection

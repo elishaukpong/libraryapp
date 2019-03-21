@@ -64,9 +64,11 @@ class LibrarySectionController extends Controller
      * @param  \App\LibrarySection  $librarySection
      * @return \Illuminate\Http\Response
      */
-    public function edit(LibrarySection $librarySection)
+    public function edit($librarySlug, $sectionSlug)
     {
-        //
+        $data['librarySection'] = $this->library->whereSlug($librarySlug)->first()->sections()->whereSlug($sectionSlug)->first();
+        $data['libraries'] = $this->library->all();
+        return view('library.categories.edit', $data);
     }
 
     /**
@@ -78,7 +80,15 @@ class LibrarySectionController extends Controller
      */
     public function update(Request $request, LibrarySection $librarySection)
     {
-        //
+         $rules = [
+            'name' => 'string | required',
+            'library_id' => 'integer | required'
+        ];
+        $this->validate($request, $rules);
+        $request['slug'] = str_slug($request->name);
+        $librarySection->update($request->except(['_token', '_method']));
+
+        return redirect()->route('library.show', $librarySection->library->slug);
     }
 
     /**

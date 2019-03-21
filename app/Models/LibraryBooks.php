@@ -11,8 +11,16 @@ class LibraryBooks extends Model
         'name', 'description', 'book_avatar', 'availableCopies', 'borrowedCopies', 'slug', 'avatar',
     ];
 
-     public function sections(){
+    public function sections(){
         return $this->belongsToMany('App\Models\LibrarySection', 'library_books_library_sections');
+    }
+
+    public function recents(){
+        return $this->hasMany('App\Models\Recentbooks', 'book_id');
+    }
+
+    public function borrowed(){
+        return $this->hasMany('App\Models\BorrowBooks', 'book_id');
     }
 
     public function getAvatarAttribute($value){

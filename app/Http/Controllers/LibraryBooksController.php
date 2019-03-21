@@ -118,7 +118,9 @@ class LibraryBooksController extends Controller
 
             if(!in_array($librarySectionBook->id, $recentBookId)){
                 $recent = new Recentbooks;
-                $recent->book_id =  $librarySectionBook->id;
+                $recent->library_id = $library->id;
+                $recent->library_section_id = $librarySection->id;
+                $recent->book_id = $librarySectionBook->id;
 
                 Auth::user()->recents()->save($recent);
             }
