@@ -2,14 +2,14 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Add Book to ') }} {{$librarySection->name}} Section</div>
+                <div class="card-header">{{ __('Edit Book') }}</div>
 
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-4 col-12">
-                            <img src="{{asset('img/book.jpg')}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
+                            <img src="{{asset($librarySectionBook->avatar)}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
                             @if ($errors->has('book_avatar'))
                             <span class="invalid-feedback text-center" role="alert">
                                 <strong>{{ $errors->first('book_avatar') }}</strong>
@@ -80,7 +80,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-6 mx-auto">
                                         <button type="submit" class="btn btn-primary form-control">
-                                            {{ __('Add Book') }}
+                                            {{ __('Update Book') }}
                                         </button>
                                     </div>
                                 </div>

@@ -23,7 +23,7 @@ class BorrowBooks extends Model
     }
 
     public function section(){
-        return $this->belongsTo('App\Models\LibrarySection');
+        return $this->belongsTo('App\Models\LibrarySection', 'library_section_id');
     }
 
     public function book(){

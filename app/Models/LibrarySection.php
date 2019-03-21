@@ -19,7 +19,7 @@ class LibrarySection extends Model
     }
 
     public function books(){
-        return $this->belongsToMany('App\Models\LibraryBooks', 'library_books_library_sections');
+        return $this->HasMany('App\Models\LibraryBooks');
     }
 
       public function getInitialAttribute(){

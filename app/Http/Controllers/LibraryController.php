@@ -51,6 +51,7 @@ class LibraryController extends Controller
 
         $request['user_id'] = Auth::id();
         $request['slug'] = str_slug($request->name);
+        $request['library_id'] = str_random(2) . rand(10, 90);
         $this->library->create($request->except(['_token']));
 
         return Redirect()->route('library.index');

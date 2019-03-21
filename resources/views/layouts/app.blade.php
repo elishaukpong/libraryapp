@@ -91,10 +91,8 @@
                                             @foreach( Auth::user()->recents as $recent)
                                             <li class="list-group-item">
                                                 <p> {{$recent->book->name}}</p>
-                                                {{--
-                                                <p> {{$recent->book->sections}}</p> --}} @foreach($recent->book->sections as $section)
-                                                <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
-                                                @endforeach
+                                                <p class="small"> {{$recent->library->name}} /
+                                                    {{$recent->section->name}}</p>
                                             </li>
                                             @endforeach
                                         </ul>
@@ -116,9 +114,7 @@
 
                                             <li class="list-group-item">
                                                 <p>{{$borrowedBook->book->name}}</p>
-                                                 @foreach($borrowedBook->book->sections as $section)
-                                                <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
-                                                @endforeach
+                                                <p class="small"> {{$borrowedBook->library->name}} / {{$borrowedBook->section->name}}</p>
                                             </li>
                                             @endforeach
                                         </ul>

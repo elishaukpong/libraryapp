@@ -16,6 +16,7 @@ class CreateLibrarySectionsTable extends Migration
         Schema::create('library_sections', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('library_id');
+            $table->string('section_id')->unique();
 
             $table->string('name')->unique();
             $table->string('slug');

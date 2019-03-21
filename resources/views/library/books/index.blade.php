@@ -7,19 +7,10 @@
             <div class="card">
                 <div class="card-body">
                     <img src="{{asset($libraryBook->avatar)}}" class="img-fluid add-book form-control" alt="">
-                    <h1 class="text-center my-3">{{$libraryBook->name}}</h1>
+                    <h3 class="text-center my-3">{{$libraryBook->name}}</h3>
+                    <p class="text-center my-3"><span class="font-weight-bold">Book ID:</span> {{$libraryBook->book_id}}</p>
                     <a href="{{route('books.show', [$librarySection->library->slug, $librarySection->slug, $libraryBook->slug])}}" class="btn btn-sm btn-primary form-control">See More</a>
-                    {{-- <button type="button" class="btn btn-primary btn-sm form-control" data-toggle="collapse" data-target="#{{$libraryBook->slug}}">
-                        See More
-                    </button> --}}
-                    <div id="{{$libraryBook->slug}}" class="collapse my-3">
-                        <p>{{$libraryBook->description}}</p>
-                        <p><span class="font-weight-bold">Copies Available:</span> {{$libraryBook->availableCopies}}</p>
-                        <p><span class="font-weight-bold">Copies Borrowed:</span> {{$libraryBook->borrowedCopies}}</p>
 
-                        <a href="#" class="btn btn-sm btn-success px-4">Borrow</a>
-                        <a href="#" class="btn btn-sm btn-primary px-4">Purchase</a>
-                    </div>
                 </div>
             </div>
         </div>

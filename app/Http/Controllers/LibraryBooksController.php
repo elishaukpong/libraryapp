@@ -69,13 +69,13 @@ class LibraryBooksController extends Controller
         $book->name = $request->name;
         $book->description = $request->description;
         $book->slug = $slug;
+        $book->book_id = str_random(5) . rand(10, 90);
         $book->avatar = $imageName;
         $book->availableCopies = $request->availableCopies;
-        $book->save();
 
         $request->book_avatar->storeAs('public/avatars/', $imageName);
 
-        $librarySection->books()->attach($book);
+        $librarySection->books()->save($book);
 
         return redirect()->route('section.show',[$librarySection->library->slug,$librarySection->slug]);
     }

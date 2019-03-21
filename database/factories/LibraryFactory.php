@@ -7,6 +7,7 @@ $factory->define(App\Models\Library::class, function (Faker $faker) {
         'name' => $faker->name,
         'location' => $faker->address,
         'email' => $faker->email,
+        'library_id' =>  str_random(2) . rand(10, 90),
         'slug' => str_slug($faker->name),
     ];
 });

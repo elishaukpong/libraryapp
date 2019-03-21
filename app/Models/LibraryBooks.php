@@ -8,11 +8,11 @@ use App\Models\LibrarySections;
 class LibraryBooks extends Model
 {
     protected $fillable = [
-        'name', 'description', 'book_avatar', 'availableCopies', 'borrowedCopies', 'slug', 'avatar',
+        'name', 'description', 'book_avatar', 'availableCopies', 'borrowedCopies', 'slug', 'avatar','book_id', 'library_section_id'
     ];
 
     public function sections(){
-        return $this->belongsToMany('App\Models\LibrarySection', 'library_books_library_sections');
+        return $this->belongsTo('App\Models\LibrarySection');
     }
 
     public function recents(){

@@ -40,6 +40,7 @@ class LibrarySectionController extends Controller
         ];
         $this->validate($request, $rules);
         $request['slug'] = str_slug($request->name);
+        $request['section_id'] = str_random(3) . rand(10, 90);
 
         $library = $this->library->whereId($request->library_id)->first();
 

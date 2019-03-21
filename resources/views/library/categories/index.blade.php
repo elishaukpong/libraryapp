@@ -8,6 +8,7 @@
                 <div class="card-body">
                     <h1 class="text-white lib-head mb-4">{{$librarySection->initial}}</h1>
                     <p> <span class="font-weight-bold">Name:</span> {{$librarySection->name}}</p>
+                    <p><span class="font-weight-bold">Section ID:</span> {{$librarySection->section_id}}</p>
                     <p><span class="font-weight-bold">Number Of Books:</span> {{$librarySection->books()->count()}}</p>
 
                     <a href="{{route('section.show', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-success">Enter Section</a>
