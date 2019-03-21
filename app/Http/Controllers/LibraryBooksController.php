@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\LibraryBooks;
 use App\Models\Tags;
+use App\Models\Recentbooks;
+use Auth;
 use App\Models\LibrarySection;
+use App\Models\Library;
 use Illuminate\Http\Request;
 
 class LibraryBooksController extends Controller
 {
 
-    public function __construct(LibrarySection $librarySection, LibraryBooks $libraryBooks, Tags $tags)
+    public function __construct(Library $library, LibrarySection $librarySection, LibraryBooks $libraryBooks, Tags $tags)
     {
+        $this->library = $library;
         $this->librarySection = $librarySection;
         $this->libraryBooks = $libraryBooks;
         $this->tags = $tags;
+
+        $this->middleware(['auth']);
     }
 
     /**
@@ -80,9 +86,44 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function show(LibraryBooks $libraryBooks)
+    public function show($librarySlug, $librarySectionSlug, $libraryBooksSlug)
     {
-        //
+        $library = $this->library->whereSlug($librarySlug)->first();
+        $librarySection = $library->sections()->whereSlug($librarySectionSlug)->first();
+        $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
+
+        // Navigation
+        $prevBookId = $librarySection->books()->where('library_books.id', '<', $librarySectionBook->id)
+                    ->get()->max('id');
+        $nextBookId = $librarySection->books()->where('library_books.id', '>', $librarySectionBook->id)
+                    ->get()->min('id');
+
+            $data['library'] = $library;
+            $data['librarySection'] = $librarySection;
+            $data['librarySectionBook'] = $librarySectionBook;
+
+            $data['prevBook'] = $librarySection->books()->where('library_books.id', '=', $prevBookId)->first();
+            $data['nextBook'] = $librarySection->books()->where('library_books.id', '=', $nextBookId)->first();
+
+        // Recent Books;
+        $user = Auth::user();
+
+        if($user){
+
+            if($user->recents->count() == 5){
+                $user->recents()->first()->delete();
+            }
+
+            $recentBookId = $user->recents()->get()->pluck('book_id')->toArray();;
+
+            if(!in_array($librarySectionBook->id, $recentBookId)){
+                $recent = new Recentbooks;
+                $recent->book_id =  $librarySectionBook->id;
+
+                Auth::user()->recents()->save($recent);
+            }
+        }
+        return view('library.books.show',$data);
     }
 
     /**
@@ -118,4 +159,6 @@ class LibraryBooksController extends Controller
     {
         //
     }
+
+
 }

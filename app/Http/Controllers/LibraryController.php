@@ -47,6 +47,7 @@ class LibraryController extends Controller
             'location' => 'string | required',
         ];
         $this->validate($request, $rules);
+
         $request['user_id'] = Auth::id();
         $request['slug'] = str_slug($request->name);
         $this->library->create($request->except(['_token']));
@@ -72,9 +73,10 @@ class LibraryController extends Controller
      * @param  \App\Library  $library
      * @return \Illuminate\Http\Response
      */
-    public function edit(Library $library)
+    public function edit($librarySlug)
     {
-        //
+        $data['library'] = $this->library->whereSlug($librarySlug)->first();
+        return view('library.edit',$data);
     }
 
     /**
@@ -86,7 +88,14 @@ class LibraryController extends Controller
      */
     public function update(Request $request, Library $library)
     {
-        //
+        $rules = [
+            'name' => 'required | string',
+            'location' => 'string | required',
+        ];
+        $this->validate($request, $rules);
+
+        $library->update($request->except(['_token', '_method']));
+        return redirect()->back();
     }
 
     /**
@@ -97,6 +106,16 @@ class LibraryController extends Controller
      */
     public function destroy(Library $library)
     {
-        //
+        foreach($library->sections as $section){
+            // foreach($section->books as $book){
+            //     $book->delete();
+            // }
+
+            $section->delete();
+        };
+
+        $library->delete();
+
+        return redirect()->route('library.index');
     }
 }

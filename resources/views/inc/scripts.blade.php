@@ -2,3 +2,9 @@
     crossorigin="anonymous"></script>
 
 <script src="{{asset('js/custom.js')}}" defer></script>
+
+@if(Request::all())
+<script>
+console.log('heee');
+</script>
+@endif

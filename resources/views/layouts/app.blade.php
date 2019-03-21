@@ -76,9 +76,62 @@
         </nav>
 
         <main class="py-4">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-md-3 col-12 my-4">
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h4>Recently Visited Books</h3>
+                                        </div>
+                                        @if(Auth::user() && Auth::user()->recents->count())
+                                        <ul class="list-group">
+                                            @foreach( Auth::user()->recents as $recent)
+                                            <li class="list-group-item">
+                                                <p> {{$recent->book->name}}</p>
+                                                {{--
+                                                <p> {{$recent->book->sections}}</p> --}} @foreach($recent->book->sections as $section)
+                                                <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
+                                                @endforeach
+                                            </li>
+                                            @endforeach
+                                        </ul>
+
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center">
+                                            <h4>Borrowed Books</h3>
+                                        </div>
+                                        @if(Auth::user() && Auth::user()->borrowedBooks()->whereReturned(0)->count())
+                                        <ul class="list-group">
+                                            @foreach( Auth::user()->borrowedBooks()->whereReturned(0)->get() as $borrowedBook)
+
+                                            <li class="list-group-item">
+                                                <p>{{$borrowedBook->book->name}}</p>
+                                                 @foreach($borrowedBook->book->sections as $section)
+                                                <p class="small"> {{$section->library->name}} / {{$section->name}}</p>
+                                                @endforeach
+                                            </li>
+                                            @endforeach
+                                        </ul>
+
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-9 col-12">
                         @yield('content')
                     </div>
                 </div>
