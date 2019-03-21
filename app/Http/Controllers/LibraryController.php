@@ -75,7 +75,8 @@ class LibraryController extends Controller
      */
     public function edit($librarySlug)
     {
-        return $librarySlug;
+        $data['library'] = $this->library->whereSlug($librarySlug)->first();
+        return view('library.edit',$data);
     }
 
     /**
@@ -87,7 +88,14 @@ class LibraryController extends Controller
      */
     public function update(Request $request, Library $library)
     {
-        //
+        $rules = [
+            'name' => 'required | string',
+            'location' => 'string | required',
+        ];
+        $this->validate($request, $rules);
+
+        $library->update($request->except(['_token', '_method']));
+        return redirect()->back();
     }
 
     /**
