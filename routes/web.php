@@ -33,7 +33,9 @@ Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->nam
 Route::get('/{sectionSlug}/books/create', 'LibraryBooksController@create')->name('books.create');
 Route::post('/books', 'LibraryBooksController@store')->name('books.store');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/details', 'LibraryBooksController@show')->name('books.show');
+Route::get('/borrowed', 'BorrowBooksController@index')->name('books.borrowed.all');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/borrow', 'BorrowBooksController@borrow')->name('books.borrow');
+Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/return', 'BorrowBooksController@return')->name('books.return');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/purchase', 'LibraryBooksController@purchase')->name('books.purchase');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/recent', 'LibraryBooksController@recent')->name('books.recent');
 

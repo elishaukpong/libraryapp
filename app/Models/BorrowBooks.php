@@ -14,4 +14,12 @@ class BorrowBooks extends Model
         'return_date'
     ];
 
+    public function book(){
+        return $this->belongsTo('App\Models\LibraryBooks');
+    }
+
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
+
 }

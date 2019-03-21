@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use Session;
 use App\Models\BorrowBooks;
 use App\Models\Library;
 use App\Models\LibraryBooks;
@@ -27,7 +28,9 @@ class BorrowBooksController extends Controller
      */
     public function index()
     {
-        //
+        $data['borrowedBooks'] = BorrowBooks::whereUserId(Auth::id())->whereReturned(0)->get();
+
+        return view('library.books.borrowed_index', $data);
     }
 
 
@@ -39,6 +42,17 @@ class BorrowBooksController extends Controller
         $librarySection = $library->sections()->whereSlug($librarySectionSlug)->first();
         $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
 
+        if(Auth::user()->borrowedBooks()->whereReturned(0)->count() == 3){
+            Session::flash('You cannot borrow more than 3 books at a time!');
+            return redirect()->back();
+        }
+
+        $borrowedBookId = Auth::user()->borrowedBooks()->whereReturned(0)->get()->pluck('book_id')->toArray();
+        if(in_array($librarySectionBook->id, $borrowedBookId)){
+            Session::flash('You cannot borrow a book twice!');
+            return redirect()->back();
+        }
+
         $borrowedBook = new BorrowBooks;
         $borrowedBook->book_id = $librarySectionBook->id;
 
@@ -46,6 +60,26 @@ class BorrowBooksController extends Controller
         $librarySectionBook->update([
             'availableCopies' => $librarySectionBook->availableCopies - 1,
             'borrowedCopies' => $librarySectionBook->borrowedCopies + 1,
+        ]);
+
+        return redirect()->back();
+    }
+
+    public function return($librarySlug, $librarySectionSlug, $libraryBooksSlug)
+    {
+        $library = $this->library->whereSlug($librarySlug)->first();
+        $librarySection = $library->sections()->whereSlug($librarySectionSlug)->first();
+        $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
+
+
+        $borrowedBook = BorrowBooks::whereBookId($librarySectionBook->id)->whereReturned(0)->first();
+        $borrowedBook->update([
+            'returned' => 1,
+        ]);
+
+        $librarySectionBook->update([
+            'availableCopies' => $librarySectionBook->availableCopies + 1,
+            'borrowedCopies' => $librarySectionBook->borrowedCopies - 1,
         ]);
 
         return redirect()->back();
