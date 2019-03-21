@@ -26,7 +26,7 @@
 
                                 <div class="form-group row mt-4">
                                     <div class="col-md-12">
-                                        <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $librarySectionBook->name }}"
+                                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ $librarySectionBook->name }}"
                                             required autofocus placeholder="Book Name"> @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -77,12 +77,20 @@
 
 
                                 <div class="form-group row">
-                                    <div class="col-md-6 mx-auto">
-                                        <button type="submit" class="btn btn-primary form-control">
+                                    <div class="col-md-8 offset-md-2">
+                                        <button type="submit" class="btn btn-primary">
                                             {{ __('Update Book') }}
                                         </button>
+                                        <button type="submit" class="btn btn-danger" id="delete_library">
+                                            {{ __('Delete') }}
+                                        </button>
                                     </div>
+
                                 </div>
+                            </form>
+                            <form method="POST" action="{{route('book.destroy', $librarySectionBook->id)}}" id="delete_library_form">
+                                @csrf @method('DELETE')
+
                             </form>
                         </div>
                     </div>

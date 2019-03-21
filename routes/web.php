@@ -38,6 +38,7 @@ Route::get('/{sectionSlug}/books/create', 'LibraryBooksController@create')->name
 Route::post('/books', 'LibraryBooksController@store')->name('books.store');
 Route::get('/books/{bookId}/edit', 'LibraryBooksController@edit')->name('book.edit');
 Route::patch('/books/{bookId}', 'LibraryBooksController@update')->name('book.update');
+Route::delete('/books/{bookId}', 'LibraryBooksController@destroy')->name('book.destroy');
 Route::get('/books/borrowed', 'BorrowBooksController@index')->name('books.borrowed.all');
 
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/details', 'LibraryBooksController@show')->name('books.show');

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Auth;
-use Storage;
+use Session;
 use App\Models\Tags;
 use App\Models\Library;
 use App\Models\Recentbooks;
@@ -189,9 +189,30 @@ class LibraryBooksController extends Controller
      * @param  \App\LibraryBooks  $libraryBooks
      * @return \Illuminate\Http\Response
      */
-    public function destroy(LibraryBooks $libraryBooks)
+    public function destroy(LibraryBooks $bookId)
     {
-        //
+        $borrowedBooks =  $bookId->borrowed()->get();
+        $recentBooks =  $bookId->recents()->get();
+        $librarySlug = $bookId->sections->library->slug;
+        $sectionSlug = $bookId->sections->slug;
+
+        foreach($borrowedBooks as $borrowedBook){
+            // Check if any book remains borrowed
+            if($borrowedBook->returned == 0){
+                Session::flash('error', 'Can not delete until all books are returned!');
+                return redirect()->back();
+            }
+            $borrowedBook->delete();
+        }
+
+        foreach($recentBooks as $recentBook){
+            $recentBook->delete();
+        }
+        $bookId->delete();
+
+        Session::flash('success', 'Book Deleted!');
+        return redirect()->route('section.show', [$librarySlug, $sectionSlug]);
+
     }
 
 

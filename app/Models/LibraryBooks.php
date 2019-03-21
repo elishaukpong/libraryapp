@@ -12,7 +12,7 @@ class LibraryBooks extends Model
     ];
 
     public function sections(){
-        return $this->belongsTo('App\Models\LibrarySection');
+        return $this->belongsTo('App\Models\LibrarySection', 'library_section_id');
     }
 
     public function recents(){
