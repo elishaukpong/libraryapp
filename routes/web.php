@@ -30,6 +30,7 @@ Route::get('/categories/create', 'LibrarySectionController@create')->name('categ
 Route::post('/categories', 'LibrarySectionController@store')->name('categories.store');
 Route::get('/{librarySlug}/{sectionSlug}/edit', 'LibrarySectionController@edit')->name('categories.edit');
 Route::patch('/categories/{librarySection}', 'LibrarySectionController@update')->name('categories.update');
+Route::delete('/categories/{librarySection}', 'LibrarySectionController@destroy')->name('categories.destroy');
 Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
 
 // Books

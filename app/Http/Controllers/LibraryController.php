@@ -122,22 +122,22 @@ class LibraryController extends Controller
                 $recentBooks =  $book->recents()->get();
 
                 foreach($borrowedBooks as $borrowedBook){
-                    // Check if any book remains borrowed
-                    if($borrowedBook->returned == 0){
-                        Session::flash('error', 'Can not delete library until all books are returned!');
-                        return redirect()->back();
-                    }
+                // Check if any book remains borrowed
+                if($borrowedBook->returned == 0){
+                    Session::flash('error', 'Can not delete section until all books are returned!');
+                    return redirect()->back();
                 }
+                $borrowedBook->delete();
+            }
 
-                $borrowedBooks->delete();
-                $recentBooks->delete();
+            foreach($recentBooks as $recentBook){
+                $recentBook->delete();
+            }
 
             }
 
             $section->delete();
         }
-        return 2;
-        $library->sections()->delete();
         $library->delete();
 
         Session::flash('success', 'Library deleted');

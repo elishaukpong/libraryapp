@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Session;
 use App\Models\Library;
 use App\Models\LibrarySection;
 use Illuminate\Http\Request;
@@ -99,6 +100,33 @@ class LibrarySectionController extends Controller
      */
     public function destroy(LibrarySection $librarySection)
     {
-        //
+        $books = $librarySection->books()->get();
+        $librarySlug = $librarySection->library->slug;
+
+        // Iterate over the books
+        foreach($books as $book){
+
+            $borrowedBooks =  $book->borrowed()->get();
+            $recentBooks =  $book->recents()->get();
+
+            foreach($borrowedBooks as $borrowedBook){
+                // Check if any book remains borrowed
+                if($borrowedBook->returned == 0){
+                    Session::flash('error', 'Can not delete section until all books are returned!');
+                    return redirect()->back();
+                }
+                $borrowedBook->delete();
+            }
+
+            foreach($recentBooks as $recentBook){
+                $recentBook->delete();
+            }
+
+        }
+
+        $librarySection->delete();
+
+        Session::flash('success', 'Section deleted');
+        return redirect()->route('library.show', $librarySlug);
     }
 }
