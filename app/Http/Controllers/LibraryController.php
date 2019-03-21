@@ -73,9 +73,9 @@ class LibraryController extends Controller
      * @param  \App\Library  $library
      * @return \Illuminate\Http\Response
      */
-    public function edit(Library $library)
+    public function edit($librarySlug)
     {
-        //
+        return $librarySlug;
     }
 
     /**

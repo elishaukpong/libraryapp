@@ -7,7 +7,6 @@ use Session;
 use App\Models\BorrowBooks;
 use App\Models\Library;
 use App\Models\LibraryBooks;
-use Illuminate\Http\Request;
 use App\Models\LibrarySection;
 
 class BorrowBooksController extends Controller
@@ -85,48 +84,4 @@ class BorrowBooksController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\BorrowBooks  $borrowBooks
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BorrowBooks $borrowBooks)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\BorrowBooks  $borrowBooks
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BorrowBooks $borrowBooks)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\BorrowBooks  $borrowBooks
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, BorrowBooks $borrowBooks)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\BorrowBooks  $borrowBooks
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(BorrowBooks $borrowBooks)
-    {
-        //
-    }
 }
