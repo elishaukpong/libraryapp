@@ -22,13 +22,16 @@ class UsersTableSeeder extends Seeder
                 $sections = factory(App\Models\LibrarySection::class, rand(2,6))->create([
                     'library_id' => $library->id
                 ]);
+
+                 $sections->each(function($section){
+                    factory(App\Models\LibraryBooks::class, rand(2,6))->create([
+                        'library_section_id' => $section->id
+                    ]);
+                });
             });
 
-            // factory(App\Models\LibraryBooks::class, rand(3,7))->create();
 
-            // $sections->each(function($section){
 
-            // });
         });
     }
 }
