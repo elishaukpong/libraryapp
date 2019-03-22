@@ -1,14 +1,17 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-9">
-            <div class="card">
-                <div class="card-header">{{ __('Add Book to ') }} {{$librarySection->name}} Section</div>
+<div class="jumbotron text-center my-4">
+    <h1>Create Book</h1>
+    <p><b>Library:</b> {{$librarySection->library->name}} /
+        <b>Section:</b> {{$librarySection->name}}</p>
+</div>
 
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-3 col-12 offset-md-2">
                             <img src="{{asset('img/book.jpg')}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
                             @if ($errors->has('book_avatar'))
                             <span class="invalid-feedback text-center" role="alert">
@@ -19,7 +22,7 @@
                             </a>
 
                         </div>
-                        <div class="col-md-8 col-12">
+                        <div class="col-md-6 col-12">
                             <form method="POST" action="{{route('books.store')}}" enctype="multipart/form-data">
                                 @csrf
 
@@ -92,5 +95,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

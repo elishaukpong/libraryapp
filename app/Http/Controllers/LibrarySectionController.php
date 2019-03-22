@@ -12,7 +12,7 @@ class LibrarySectionController extends Controller
      public function __construct(Library $library, LibrarySection $librarySection){
         $this->library = $library;
         $this->librarySection = $librarySection;
-        $this->middleware(['auth', 'admin'])->except(['index', 'show']);
+        $this->middleware(['auth', 'admin'])->except(['show']);
     }
 
     /**
@@ -57,6 +57,7 @@ class LibrarySectionController extends Controller
     public function show($librarySlug, $sectionSlug)
     {
         $data['librarySection'] = $this->library->whereSlug($librarySlug)->first()->sections()->whereSlug($sectionSlug)->first();
+        $data['librarySectionBooks'] = $data['librarySection']->books()->paginate(8);
         return view('library.books.index', $data);
     }
 

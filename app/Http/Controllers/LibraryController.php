@@ -21,7 +21,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        $data['libraries'] = $this->library->all();
+        $data['libraries'] = $this->library->paginate(8);
         return view('library.index', $data);
     }
 
@@ -65,7 +65,8 @@ class LibraryController extends Controller
      */
     public function show($librarySlug)
     {
-       $data['library'] = $this->library->whereSlug($librarySlug)->with('sections')->first();
+       $data['library'] = $this->library->whereSlug($librarySlug)->first();
+       $data['librarySections'] =$data['library']->sections()->paginate(8);
         return view('library.categories.index', $data);
     }
 

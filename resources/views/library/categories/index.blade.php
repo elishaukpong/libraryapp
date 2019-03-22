@@ -1,9 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="jumbotron text-center my-4">
+    <h1>Sections</h1>
+    <p><b>Library:</b> {{$library->name}}</p>
+</div>
+
 <div class="row">
-    @foreach($library->sections as $librarySection)
-        <div class="col-md-3 col-12">
+    @foreach($librarySections as $librarySection)
+        <div class="col-md-4 col-12 my-3">
             <div class="card">
                 <div class="card-body">
                     <h1 class="text-white lib-head mb-4">{{$librarySection->initial}}</h1>
@@ -11,10 +16,12 @@
                     <p><span class="font-weight-bold">Section ID:</span> {{$librarySection->section_id}}</p>
                     <p><span class="font-weight-bold">Number Of Books:</span> {{$librarySection->books()->count()}}</p>
 
-                    <a href="{{route('section.show', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-success">Enter Section</a>
+                    <a href="{{route('section.show', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-success form-control">Enter Section</a>
+                    @auth
                     @if(Auth::user()->isAdmin)
-                        <a href="{{route('categories.edit', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-primary">EditSection</a>
+                        <a href="{{route('categories.edit', [$library->slug, $librarySection->slug])}}" class="btn btn-sm btn-primary form-control my-2">Edit Section</a>
                     @endif
+                    @endauth
                 </div>
             </div>
         </div>
@@ -33,5 +40,10 @@
         </div>
     </div>
     @endif @endauth
+</div>
+<div class="row">
+    <div class="col-4 mx-auto my-5">
+        {{$librarySections->links()}}
+    </div>
 </div>
 @endsection

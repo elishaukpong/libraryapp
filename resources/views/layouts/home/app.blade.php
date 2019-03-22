@@ -21,6 +21,18 @@
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w="
         crossorigin="anonymous" />
+    <style>
+        html,
+        body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 200;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+
 </head>
 <body>
     <div id="app">
@@ -75,66 +87,8 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            <div class="container-fluid">
-                <div class="row">
-                    @auth
-                        <div class="col-md-3 col-12 my-4">
-                            <div class="row">
-                                <div class="col-12 mb-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="text-center">
-                                                <p>Recently Visited Books</p>
-                                            </div>
-                                            @if(Auth::user() && Auth::user()->recents->count())
-                                            <ul class="list-group">
-                                                @foreach( Auth::user()->recents as $recent)
-                                                <li class="list-group-item">
-                                                    <p> {{$recent->book->name}}</p>
-                                                    <p class="small"> {{$recent->library->name}} /
-                                                        {{$recent->section->name}}</p>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="text-center">
-                                                <p>Borrowed Books</p>
-                                            </div>
-                                            @if(Auth::user() && Auth::user()->borrowedBooks()->whereReturned(0)->count())
-                                            <ul class="list-group">
-                                                @foreach( Auth::user()->borrowedBooks()->whereReturned(0)->get() as $borrowedBook)
-
-                                                <li class="list-group-item">
-                                                    <p>{{$borrowedBook->book->name}}</p>
-                                                    <p class="small"> {{$borrowedBook->library->name}} / {{$borrowedBook->section->name}}</p>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-
-                                            @endif
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    @endauth
-
-                    <div class=" {{Auth::user() ? 'col' : 'col-md-8 col-12 mx-auto' }}">
-                        @yield('content')
-                    </div>
-                </div>
-            </div>
+        <main class="">
+           @yield('content')
         </main>
     </div>
 </body>
