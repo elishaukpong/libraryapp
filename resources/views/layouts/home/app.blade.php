@@ -96,8 +96,9 @@
             </div>
         </nav>
 
+        @include('inc.alerts')
         <main class="">
-           @yield('content')
+        @yield('content')
         </main>
     </div>
 </body>

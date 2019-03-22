@@ -29,7 +29,7 @@
                             </div>
                     </div>
                     <div class="text-center py-2">
-                        <p class="small">Start with # when using ID to search</p>
+                        <p class="small">Start with @  when using ID to search</p>
                     </div>
                 </for>
             </div>

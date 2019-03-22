@@ -1,6 +1,3 @@
-<div class="container my-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8 mx-auto text-center">
 
             {{-- @auth
             @if ($user->email_verified_at == null)
@@ -45,7 +42,3 @@
                 swal(" {{session('swal-success')}} ", "", "success")
             </script>
             @endif
-        </div>
-    </div>
-</div>
-
