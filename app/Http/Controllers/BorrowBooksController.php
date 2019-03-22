@@ -42,13 +42,13 @@ class BorrowBooksController extends Controller
         $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
 
         if(Auth::user()->borrowedBooks()->whereReturned(0)->count() == 3){
-            Session::flash('You cannot borrow more than 3 books at a time!');
+            Session::flash('swal-info','You cannot borrow more than 3 books at a time!');
             return redirect()->back();
         }
 
         $borrowedBookId = Auth::user()->borrowedBooks()->whereReturned(0)->get()->pluck('book_id')->toArray();
         if(in_array($librarySectionBook->id, $borrowedBookId)){
-            Session::flash('You cannot borrow a book twice!');
+            Session::flash('swal-info','You cannot borrow a book twice!');
             return redirect()->back();
         }
 
@@ -62,7 +62,8 @@ class BorrowBooksController extends Controller
             'availableCopies' => $librarySectionBook->availableCopies - 1,
             'borrowedCopies' => $librarySectionBook->borrowedCopies + 1,
         ]);
-
+        $message = 'You have borrowed ' . $librarySectionBook->name . '. Please, endeavor to return it on or before two weeks!, Thanks';
+        Session::flash('swal-success', $message);
         return redirect()->back();
     }
 

@@ -79,6 +79,7 @@ class LibraryBooksController extends Controller
 
         $librarySection->books()->save($book);
 
+        Session::flash('success', 'Book Created!');
         return redirect()->route('section.show',[$librarySection->library->slug,$librarySection->slug]);
     }
 
@@ -112,13 +113,13 @@ class LibraryBooksController extends Controller
 
         if($user){
 
-            if($user->recents->count() == 5){
-                $user->recents()->first()->delete();
-            }
-
             $recentBookId = $user->recents()->get()->pluck('book_id')->toArray();;
 
             if(!in_array($librarySectionBook->id, $recentBookId)){
+                if($user->recents->count() == 5){
+                    $user->recents()->first()->delete();
+                }
+
                 $recent = new Recentbooks;
                 $recent->library_id = $library->id;
                 $recent->library_section_id = $librarySection->id;
@@ -181,7 +182,8 @@ class LibraryBooksController extends Controller
         $bookId->availableCopies = $request->availableCopies;
         $bookId->update();
 
-        return redirect()->back();
+        Session::flash('success', 'Book Updated!');
+        return redirect()->route('books.show', [$bookId->sections->library->slug, $bookId->sections->slug, $bookId->slug]);
     }
 
     /**

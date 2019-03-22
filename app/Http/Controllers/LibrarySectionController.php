@@ -45,6 +45,8 @@ class LibrarySectionController extends Controller
         $library = $this->library->whereId($request->library_id)->first();
 
         $this->librarySection->create($request->except(['_token']));
+
+        Session::flash('success', 'Section Created');
         return redirect()->route('library.show', $library->slug );
     }
 
@@ -58,6 +60,9 @@ class LibrarySectionController extends Controller
     {
         $data['librarySection'] = $this->library->whereSlug($librarySlug)->first()->sections()->whereSlug($sectionSlug)->first();
         $data['librarySectionBooks'] = $data['librarySection']->books()->paginate(8);
+
+       $message = 'Welcome to ' . $data['librarySection']->name .'\'s Section';
+        Session::now('success', $message); //makes the session stay for only one request, use it when generating a session for a view!
         return view('library.books.index', $data);
     }
 
@@ -91,6 +96,7 @@ class LibrarySectionController extends Controller
         $request['slug'] = str_slug($request->name);
         $librarySection->update($request->except(['_token', '_method']));
 
+        Session::flash('update-success', 'Section Updated');
         return redirect()->route('library.show', $librarySection->library->slug);
     }
 

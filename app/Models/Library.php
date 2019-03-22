@@ -10,7 +10,7 @@ class Library extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name', 'location', 'email', 'user_id', 'slug',
+        'name', 'location', 'email', 'user_id', 'slug', 'library_id'
     ];
 
     public function getInitialAttribute(){

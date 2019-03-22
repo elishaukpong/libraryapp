@@ -54,6 +54,7 @@ class LibraryController extends Controller
         $request['library_id'] = str_random(2) . rand(10, 90);
         $this->library->create($request->except(['_token']));
 
+        Session::flash('success', 'Library Created');
         return Redirect()->route('library.index');
     }
 
@@ -67,6 +68,9 @@ class LibraryController extends Controller
     {
        $data['library'] = $this->library->whereSlug($librarySlug)->first();
        $data['librarySections'] =$data['library']->sections()->paginate(8);
+
+       $message = 'Welcome to ' . $data['library']->name .'\'s Library';
+        Session::now('success', $message); //makes the session stay for only one request, use it when generating a session for a view!
         return view('library.categories.index', $data);
     }
 
@@ -98,6 +102,8 @@ class LibraryController extends Controller
         $this->validate($request, $rules);
 
         $library->update($request->except(['_token', '_method']));
+
+        Session::flash('update-success', 'Library Updated');
         return redirect()->route('library.show', $library->slug);
     }
 

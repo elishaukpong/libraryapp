@@ -20,7 +20,7 @@ class CreateLibrariesTable extends Migration
 
             $table->string('name')->unique();
             $table->string('location');
-            $table->string('email');
+            $table->string('email')->unique();
             $table->string('slug');
 
             $table->softDeletes();
