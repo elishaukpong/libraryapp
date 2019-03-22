@@ -7,7 +7,7 @@
 </div>
 
 <div class="row">
-    @foreach($library->sections as $librarySection)
+    @foreach($librarySections as $librarySection)
         <div class="col-md-4 col-12 my-3">
             <div class="card">
                 <div class="card-body">
@@ -40,5 +40,10 @@
         </div>
     </div>
     @endif @endauth
+</div>
+<div class="row">
+    <div class="col-4 mx-auto my-5">
+        {{$librarySections->links()}}
+    </div>
 </div>
 @endsection
