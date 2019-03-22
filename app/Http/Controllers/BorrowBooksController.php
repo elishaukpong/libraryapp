@@ -27,7 +27,11 @@ class BorrowBooksController extends Controller
      */
     public function index()
     {
-        $data['borrowedBooks'] = BorrowBooks::whereUserId(Auth::id())->whereReturned(0)->get();
+        $data['borrowedBooks'] = BorrowBooks::whereUserId(Auth::id())->whereReturned(0)->paginate(8);
+        if($data['borrowedBooks']->count() == 0){
+            Session::flash('info', 'You haven\'t borrowed any book yet');
+            return redirect()->route('library.index');
+        }
 
         return view('library.books.borrowed_index', $data);
     }
@@ -58,10 +62,12 @@ class BorrowBooksController extends Controller
         $borrowedBook->book_id = $librarySectionBook->id;
 
         Auth::user()->borrowedBooks()->save($borrowedBook);
+
         $librarySectionBook->update([
             'availableCopies' => $librarySectionBook->availableCopies - 1,
             'borrowedCopies' => $librarySectionBook->borrowedCopies + 1,
         ]);
+
         $message = 'You have borrowed ' . $librarySectionBook->name . '. Please, endeavor to return it on or before two weeks!, Thanks';
         Session::flash('swal-success', $message);
         return redirect()->back();
@@ -83,7 +89,7 @@ class BorrowBooksController extends Controller
             'availableCopies' => $librarySectionBook->availableCopies + 1,
             'borrowedCopies' => $librarySectionBook->borrowedCopies - 1,
         ]);
-
+        Session::flash('success', 'Book Returned!');
         return redirect()->back();
     }
 

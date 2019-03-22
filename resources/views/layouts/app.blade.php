@@ -45,6 +45,12 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
+                                <a class="nav-link" href="{{route('library.index')}}">Libraries</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Search</a>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                             @if (Route::has('register'))
@@ -53,6 +59,33 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('library.index')}}">Libraries</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" v-pre>
+                                    My Books <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('books.borrowed.all') }}">
+                                        Borrowed Books
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        Purchased Books
+                                    </a>
+
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        Book History
+                                    </a>
+
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('search.index')}}">Search</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -109,33 +142,33 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="text-center">
-                                                <p>Borrowed Books</p>
+                                @if(Auth::user() && Auth::user()->borrowedBooks()->whereReturned(0)->count())
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="text-center">
+                                                    <p>Borrowed Books</p>
+                                                </div>
+                                                <ul class="list-group">
+                                                    @foreach( Auth::user()->borrowedBooks()->whereReturned(0)->get() as $borrowedBook)
+
+                                                    <li class="list-group-item">
+                                                        <p><a href="{{route('books.show', [$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug, $borrowedBook->book->slug])}}" class="btn btn-sm px-0">{{$borrowedBook->book->name}}</a></p>
+
+                                                        <p class="small">
+                                                            <a href="{{route('library.show', $borrowedBook->book->sections->library->slug)}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Library">{{$borrowedBook->library->name}} </a>
+                                                            /
+                                                            <a href="{{route('section.show',[$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug])}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Section">{{$borrowedBook->section->name}}</a>
+                                                        </p>
+                                                    </li>
+                                                    @endforeach
+                                                </ul>
+
+
                                             </div>
-                                            @if(Auth::user() && Auth::user()->borrowedBooks()->whereReturned(0)->count())
-                                            <ul class="list-group">
-                                                @foreach( Auth::user()->borrowedBooks()->whereReturned(0)->get() as $borrowedBook)
-
-                                                <li class="list-group-item">
-                                                    <p><a href="{{route('books.show', [$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug, $borrowedBook->book->slug])}}" class="btn btn-sm px-0">{{$borrowedBook->book->name}}</a></p>
-
-                                                    <p class="small">
-                                                        <a href="{{route('library.show', $borrowedBook->book->sections->library->slug)}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Library">{{$borrowedBook->library->name}} </a>
-                                                        /
-                                                        <a href="{{route('section.show',[$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug])}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Section">{{$borrowedBook->section->name}}</a>
-                                                    </p>
-                                                </li>
-                                                @endforeach
-                                            </ul>
-
-                                            @endif
-
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
 
                         </div>

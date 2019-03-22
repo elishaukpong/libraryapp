@@ -42,4 +42,71 @@ $(document).ready(function() {
         e.preventDefault()
         $('#delete_library_form').submit();
     })
+
+    // return book
+    $('.return-book').click(function(e) {
+        e.preventDefault();
+
+        swal({
+            title: "Are you sure you want to return this book?",
+            icon: "info",
+            buttons: ["Cancel", "Proceed"],
+        }).then((willReturn) => {
+            if (willReturn) {
+                next = $(this).next('.collapse')[0];
+                next.click();
+            }
+        });
+
+    })
+
+    $('.search').click(function(e) {
+        e.preventDefault()
+        searchType = e.target.dataset.id;
+        searchFormElementContainer = $('.collapse');
+        searchFormElement = $('#inlineFormInputGroupUsername');
+
+        setupSearchFormOption(searchType, searchFormElement);
+        parent = $(this).parent().parent();
+        parent.slideUp();
+        searchFormElementContainer.delay(400).fadeIn();
+    });
+
+    function setupSearchFormOption(searchType, searchTarget) {
+        switch (searchType) {
+            case 'library':
+                searchFormSetup('Library', searchTarget);
+                break;
+            case 'section':
+                searchFormSetup('Section', searchTarget);
+                break;
+            case 'book':
+                searchFormSetup('Book', searchTarget);
+                break;
+            default:
+                break;
+        }
+    }
+
+    function searchFormSetup(option, searchTarget) {
+        message = 'Enter ' + option + ' name or ID';
+        searchTarget.attr('placeholder', message);
+
+        form = $('#searchForm');
+        console.log(form);
+        route = '/search/' + option.toLowerCase();
+
+        $('#searchForm').attr('action', route);
+    }
+
+    $('.search-append').click(function() {
+        $('#searchForm').submit();
+    })
+
+    $('#searchForm').submit(function(e) {
+        if ($('#inlineFormInputGroupUsername').val() == ' ' || $('#inlineFormInputGroupUsername').val() == "") {
+            return false;
+        }
+    });
+
 });
