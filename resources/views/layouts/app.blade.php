@@ -76,7 +76,7 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="">
             @include('inc.alerts')
             <div class="container-fluid">
                 <div class="row">
@@ -93,9 +93,13 @@
                                             <ul class="list-group">
                                                 @foreach( Auth::user()->recents as $recent)
                                                 <li class="list-group-item">
-                                                    <p> {{$recent->book->name}}</p>
-                                                    <p class="small"> {{$recent->library->name}} /
-                                                        {{$recent->section->name}}</p>
+                                                    <p> <a href="{{route('books.show', [$recent->book->sections->library->slug, $recent->book->sections->slug, $recent->book->slug])}}" class="btn btn-sm px-0">{{$recent->book->name}}</a></p>
+                                                    <p class="small">
+                                                        <a href="{{route('library.show', $recent->book->sections->library->slug)}}" class="btn btn-sm px-0" data-toggle="tooltip"
+                                                            data-placement="bottom" title="Library">{{$recent->library->name}} </a> /
+                                                        <a href="{{route('section.show',[$recent->book->sections->library->slug, $recent->book->sections->slug])}}" class="btn btn-sm px-0"
+                                                            data-toggle="tooltip" data-placement="bottom" title="Section">{{$recent->section->name}}</a>
+                                                    </p>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -116,8 +120,13 @@
                                                 @foreach( Auth::user()->borrowedBooks()->whereReturned(0)->get() as $borrowedBook)
 
                                                 <li class="list-group-item">
-                                                    <p>{{$borrowedBook->book->name}}</p>
-                                                    <p class="small"> {{$borrowedBook->library->name}} / {{$borrowedBook->section->name}}</p>
+                                                    <p><a href="{{route('books.show', [$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug, $borrowedBook->book->slug])}}" class="btn btn-sm px-0">{{$borrowedBook->book->name}}</a></p>
+
+                                                    <p class="small">
+                                                        <a href="{{route('library.show', $borrowedBook->book->sections->library->slug)}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Library">{{$borrowedBook->library->name}} </a>
+                                                        /
+                                                        <a href="{{route('section.show',[$borrowedBook->book->sections->library->slug, $borrowedBook->book->sections->slug])}}" class="btn btn-sm px-0" data-toggle="tooltip" data-placement="bottom" title="Section">{{$borrowedBook->section->name}}</a>
+                                                    </p>
                                                 </li>
                                                 @endforeach
                                             </ul>
@@ -132,7 +141,7 @@
                         </div>
                     @endauth
 
-                    <div class=" {{Auth::user() ? 'col' : 'col-md-8 col-12 mx-auto' }}">
+                    <div class=" {{Auth::user() ? 'col-9' : 'col-md-8 col-12 mx-auto' }}">
                         @yield('content')
                     </div>
                 </div>

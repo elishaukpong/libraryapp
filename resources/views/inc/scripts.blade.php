@@ -6,5 +6,11 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script src="{{asset('js/custom.js')}}" defer></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+});
+
+</script>
 
 
