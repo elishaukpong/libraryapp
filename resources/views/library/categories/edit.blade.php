@@ -1,10 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="jumbotron text-center my-4">
+    <h1>Edit {{ $librarySection->name }}'s Section</h1>
+    <p><b>Library:</b> {{$librarySection->library->name}}</p>
+</div>
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Edit Section') }}</div>
+
                 <div class="card-body">
                     <form method="POST" action="{{ route('categories.update', $librarySection->id) }}">
                         @csrf
@@ -46,10 +49,10 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary px-5">
                                     {{ __('Update') }}
                                 </button>
-                                <button type="submit" class="btn btn-danger" id="delete_library">
+                                <button type="submit" class="btn btn-danger px-5" id="delete_library">
                                     {{ __('Delete') }}
                                 </button>
                             </div>
@@ -63,5 +66,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

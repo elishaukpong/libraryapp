@@ -1,14 +1,16 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="jumbotron text-center my-4">
+<h1>Edit {{$librarySectionBook->name}}'s Book</h1>
+</div>
+
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Edit Book') }}</div>
 
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4 col-12">
+                        <div class="col-md-3 col-12 offset-md-2">
                             <img src="{{asset($librarySectionBook->avatar)}}" alt="selected Image" id="target" class="img-fluid add-book border border-primary{{ $errors->has('book_avatar') ? ' is-invalid' : '' }} form-control">
                             @if ($errors->has('book_avatar'))
                             <span class="invalid-feedback text-center" role="alert">
@@ -19,7 +21,7 @@
                             </a>
 
                         </div>
-                        <div class="col-md-8 col-12">
+                        <div class="col-md-6 col-12">
                             <form method="POST" action="{{route('book.update', $librarySectionBook->id)}}" enctype="multipart/form-data">
                                 @csrf
                                 @method('PATCH')
@@ -99,5 +101,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

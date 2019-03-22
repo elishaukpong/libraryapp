@@ -21,7 +21,7 @@ class LibraryController extends Controller
      */
     public function index()
     {
-        $data['libraries'] = $this->library->all();
+        $data['libraries'] = $this->library->paginate(8);
         return view('library.index', $data);
     }
 
