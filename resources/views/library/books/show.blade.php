@@ -23,8 +23,12 @@
                     <p><span class="font-weight-bold">Copies Borrowed:</span> {{$librarySectionBook->borrowedCopies}}</p>
 
                     <a href="{{route('books.borrow', [$library->slug, $librarySection->slug,  $librarySectionBook->slug])}}" class="btn btn-sm btn-success px-4">Borrow</a>
-                    <a href="{{route('books.purchase', [$library->slug, $librarySection->slug,  $librarySectionBook->slug])}}" class="btn btn-sm btn-primary px-4">Purchase</a>            @if(Auth::user()->isAdmin)
-                    <a href="{{route('book.edit', [ $librarySectionBook->book_id])}}" class="btn btn-sm btn-primary">Edit Book</a>            @endif
+                    <a href="{{route('books.purchase', [$library->slug, $librarySection->slug,  $librarySectionBook->slug])}}" class="btn btn-sm btn-primary px-4">Purchase</a>
+                    @auth
+                    @if(Auth::user()->isAdmin)
+                    <a href="{{route('book.edit', [ $librarySectionBook->book_id])}}" class="btn btn-sm btn-primary">Edit Book</a>
+                    @endif
+                    @endauth
 
 
                 </div>

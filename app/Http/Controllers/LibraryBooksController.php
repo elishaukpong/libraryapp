@@ -21,7 +21,8 @@ class LibraryBooksController extends Controller
         $this->libraryBooks = $libraryBooks;
         $this->tags = $tags;
 
-        $this->middleware(['auth']);
+        $this->middleware(['auth'])->except(['show']);
+        $this->middleware(['admin'])->except(['show','borrow','return', 'purchase', 'recent']);
     }
 
     /**

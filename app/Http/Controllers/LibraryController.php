@@ -65,7 +65,7 @@ class LibraryController extends Controller
      */
     public function show($librarySlug)
     {
-       $data['library'] = $this->library->whereSlug($librarySlug)->with('sections')->first();
+       $data['library'] = $this->library->whereSlug($librarySlug)->first();
         return view('library.categories.index', $data);
     }
 
