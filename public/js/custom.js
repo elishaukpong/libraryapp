@@ -93,20 +93,30 @@ $(document).ready(function() {
         searchTarget.attr('placeholder', message);
 
         form = $('#searchForm');
-        console.log(form);
         route = '/search/' + option.toLowerCase();
 
         $('#searchForm').attr('action', route);
     }
 
     $('.search-append').click(function() {
+        // updateFormAction('#searchForm', '#inlineFormInputGroupUsername');
+
         $('#searchForm').submit();
+
     })
 
     $('#searchForm').submit(function(e) {
         if ($('#inlineFormInputGroupUsername').val() == ' ' || $('#inlineFormInputGroupUsername').val() == "") {
             return false;
         }
+
+        // updateFormAction('#searchForm', '#inlineFormInputGroupUsername');
+
     });
+
+    // function updateFormAction(formID, inputFieldID) {
+    //     action = $(formID).attr('action');
+    //     action += '/' + $(inputFieldID).val();
+    // }
 
 });

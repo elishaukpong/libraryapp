@@ -12,8 +12,8 @@ class SearchController extends Controller
 
     public function __construct(Library $library, LibrarySection $librarySection, LibraryBooks $libraryBooks)
     {
-        $this->library = $library;
-        $this->section = $librarySection;
+        $this->libraries = $library;
+        $this->sections = $librarySection;
         $this->books = $libraryBooks;
     }
     /**
@@ -30,30 +30,26 @@ class SearchController extends Controller
     public function library(Request $request)
     {
         $slug = str_slug($request->search);
-        $searchResult = $this->library->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->get();
-        return $searchResult;
+        $data['searchTerm'] = $request->search;
+        $data['searchResults'] = $this->libraries->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->orderBy('name', 'asc')->paginate(4);
+        return view('search.show', $data);
 
     }
 
     public function section(Request $request)
     {
         $slug = str_slug($request->search);
-        $searchResult = $this->section->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->get();
-        return $searchResult;
+        $data['searchTerm'] = $request->search;
+        $data['searchResults'] = $this->sections->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->orderBy('name', 'asc')->paginate(12);
+        return view('search.show', $data);
     }
 
     public function book(Request $request)
     {
         $slug = str_slug($request->search);
-        $searchResult = $this->book->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->get();
-        return $searchResult;
+        $data['searchTerm'] = $request->search;
+        $data['searchResults'] = $this->books->where('name', 'like', '%' . $request->search . '%')->orWhere('slug', 'like', '%' . $slug . '%')->orderBy('name', 'asc')->paginate(12);
+        return view('search.show', $data);
     }
-
-
-    public function store(Request $request)
-    {
-        //
-    }
-
 
 }
