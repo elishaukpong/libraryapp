@@ -31,7 +31,7 @@ Route::post('/categories', 'LibrarySectionController@store')->name('categories.s
 Route::get('/categories/{librarySlug}/{sectionSlug}/edit', 'LibrarySectionController@edit')->name('categories.edit');
 Route::patch('/categories/{librarySection}', 'LibrarySectionController@update')->name('categories.update');
 Route::delete('/categories/{librarySection}', 'LibrarySectionController@destroy')->name('categories.destroy');
-Route::get('/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
+Route::get('/categories/{librarySlug}/{sectionSlug}', 'LibrarySectionController@show')->name('section.show');
 
 // Books
 Route::get('/{sectionSlug}/books/create', 'LibraryBooksController@create')->name('books.create');
@@ -46,6 +46,13 @@ Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/borrow', 'BorrowBooksControl
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/return', 'BorrowBooksController@return')->name('books.return');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/purchase', 'LibraryBooksController@purchase')->name('books.purchase');
 Route::get('/{librarySlug}/{sectionSlug}/{bookSlug}/recent', 'LibraryBooksController@recent')->name('books.recent');
+
+
+// Search
+Route::get('/search', 'SearchController@index')->name('search.index');
+Route::get('/search/library', 'SearchController@library')->name('search.library');
+Route::get('/search/section', 'SearchController@section')->name('search.section');
+Route::get('/search/book', 'SearchController@book')->name('search.book');
 
 // Route::resource('/tags', 'TagsController@create');
 // Route::post('/tags', 'TagsController@store')->name('tags.store');

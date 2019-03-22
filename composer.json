@@ -18,6 +18,10 @@
         "nunomaduro/collision": "^2.0",
         "phpunit/phpunit": "^7.0"
     },
+    "repositories": [{
+        "type": "vcs",
+        "url": "http://github.com/bosunski/laravel-paystack"
+    }],
     "autoload": {
         "classmap": [
             "database/seeds",
@@ -34,8 +38,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-            ]
+            "dont-discover": []
         }
     },
     "scripts": {
