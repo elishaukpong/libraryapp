@@ -101,12 +101,12 @@ class LibraryBooksController extends Controller
         $nextBookId = $librarySection->books()->where('library_books.id', '>', $librarySectionBook->id)
                     ->get()->min('id');
 
-            $data['library'] = $library;
-            $data['librarySection'] = $librarySection;
-            $data['librarySectionBook'] = $librarySectionBook;
+        $data['library'] = $library;
+        $data['librarySection'] = $librarySection;
+        $data['librarySectionBook'] = $librarySectionBook;
 
-            $data['prevBook'] = $librarySection->books()->where('library_books.id', '=', $prevBookId)->first();
-            $data['nextBook'] = $librarySection->books()->where('library_books.id', '=', $nextBookId)->first();
+        $data['prevBook'] = $librarySection->books()->where('library_books.id', '=', $prevBookId)->first();
+        $data['nextBook'] = $librarySection->books()->where('library_books.id', '=', $nextBookId)->first();
 
         // Recent Books;
         $user = Auth::user();
