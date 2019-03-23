@@ -17,7 +17,7 @@ class BorrowBooksController extends Controller
         $this->librarySection = $librarySection;
         $this->libraryBooks = $libraryBooks;
 
-        $this->middleware(['auth']);
+        $this->middleware(['auth', 'verified']);
     }
 
     /**

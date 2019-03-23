@@ -122,7 +122,7 @@
                                     <div class="card alert-danger">
                                         <div class="card-body text-center">
                                             <p>You account hasn't been verified yet! Check your email to verify account</p>
-                                            <a href="#" class="btn btn-sm btn-success form-control">Resend Link</a>
+                                            <a href="{{ route('verification.resend') }}" class="btn btn-sm btn-success form-control">Resend Link</a>
                                         </div>
                                     </div>
                                 </div>
