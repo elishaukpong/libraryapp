@@ -1,11 +1,10 @@
 @extends('layouts.home.app')
 @section('content')
-<div class="s">
+<div class="s ff">
     <div class="s-cover">
         <div class="row">
             <div class="col-12 mx-auto">
-                <div class="box">
-
+                <div class="box" id="box">
                     <div class="card shadow">
                         <div class="card-body">
                             <a href="#" data-id="library" class="search btn btn-lg form-control btn-success my-3">Library</a>

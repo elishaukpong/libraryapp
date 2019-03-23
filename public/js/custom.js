@@ -68,8 +68,16 @@ $(document).ready(function() {
 
         setupSearchFormOption(searchType, searchFormElement);
         parent = $(this).parent().parent();
+        console.log(parent);
         parent.slideUp();
         searchFormElementContainer.delay(400).fadeIn();
+
+    });
+    $('body').click(function(e) {
+        if ($(e.target).is('div.s-cover')) {
+            $('#search').slideUp();
+            $('.card.shadow').delay(400).fadeIn();
+        }
     });
 
     function setupSearchFormOption(searchType, searchTarget) {
@@ -99,24 +107,13 @@ $(document).ready(function() {
     }
 
     $('.search-append').click(function() {
-        // updateFormAction('#searchForm', '#inlineFormInputGroupUsername');
-
         $('#searchForm').submit();
-
     })
 
     $('#searchForm').submit(function(e) {
         if ($('#inlineFormInputGroupUsername').val() == ' ' || $('#inlineFormInputGroupUsername').val() == "") {
             return false;
         }
-
-        // updateFormAction('#searchForm', '#inlineFormInputGroupUsername');
-
     });
-
-    // function updateFormAction(formID, inputFieldID) {
-    //     action = $(formID).attr('action');
-    //     action += '/' + $(inputFieldID).val();
-    // }
 
 });
