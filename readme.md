@@ -18,4 +18,4 @@ Bibliothèque is accessible, user friendly, providing tools needed to manage a g
 
 ## License
 
-Bibliothèque is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Bibliothèque is an open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT) and developed using the Laravel framework.
