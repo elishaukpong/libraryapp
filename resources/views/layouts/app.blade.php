@@ -114,8 +114,19 @@
             <div class="container-fluid">
                 <div class="row">
                     @auth
+
                         <div class="col-md-3 col-12 my-4">
                             <div class="row">
+                                @if(Auth::user()->email_verified_at == null)
+                                    <div class="col-12 mb-4">
+                                    <div class="card alert-danger">
+                                        <div class="card-body text-center">
+                                            <p>You account hasn't been verified yet! Check your email to verify account</p>
+                                            <a href="#" class="btn btn-sm btn-success form-control">Resend Link</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                    @endif
                                 <div class="col-12 mb-4">
                                     <div class="card">
                                         <div class="card-body">
