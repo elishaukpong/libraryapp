@@ -76,10 +76,10 @@
                                         Purchased Books
                                     </a>
 
-                                    <div class="dropdown-divider"></div>
+                                    {{-- <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}">
                                         Book History
-                                    </a>
+                                    </a> --}}
 
                                 </div>
                             </li>

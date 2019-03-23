@@ -59,13 +59,13 @@ Route::get('/search/book', 'SearchController@book')->name('search.book');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('test', function(){
+// Route::get('test', function(){
 
-      $borrowedBooks = \App\Models\BorrowBooks::whereReturned(0)->get();
-        foreach($borrowedBooks as $book){
-           $timeline = $book->return_date->diffInDays(\Carbon\Carbon::now());
-            if($timeline > 7){
-               echo 'Pay up in ' . $timeline;
-            }
-        }
-});
+//       $borrowedBooks = \App\Models\BorrowBooks::whereReturned(0)->get();
+//         foreach($borrowedBooks as $book){
+//            $timeline = $book->return_date->diffInDays(\Carbon\Carbon::now());
+//             if($timeline > 7){
+//                echo 'Pay up in ' . $timeline;
+//             }
+//         }
+// });

@@ -10,16 +10,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class ReturnBorrowedBookNotification extends Mailable
 {
     use Queueable, SerializesModels;
-   public  $book, $daysRemaining;
+   public  $book, $daysRemaining, $warning;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($book, $daysRemaining)
+    public function __construct($book, $daysRemaining, $warning = null)
     {
         $this->book = $book;
         $this->daysRemaining = $daysRemaining;
+        $this->warning = $warning;
     }
 
     /**

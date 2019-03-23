@@ -70,9 +70,32 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('library.index')}}">Libraries</a>
                             </li>
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" v-pre>
+                                    My Books <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('books.borrowed.all') }}">
+                                        Borrowed Books
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        Purchased Books
+                                    </a>
+
+                                    {{-- <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        Book History
+                                    </a> --}}
+
+                                </div>
+                            </li>
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search.index')}}">Search</a>
                             </li>
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

@@ -47,6 +47,9 @@ class CheckBorrowedBookTimeline extends Command
             if($book->return_date->greaterThan($now) && $timeline ==  7){
                Mail::to($book->user->email)->send(new ReturnBorrowedBookNotification($book, $timeline));
             }
+            if($book->return_date->greaterThan($now) && $timeline ==  3){
+               Mail::to($book->user->email)->send(new ReturnBorrowedBookNotification($book, $timeline, 'last'));
+            }
         }
     }
 }

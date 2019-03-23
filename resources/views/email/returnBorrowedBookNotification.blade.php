@@ -48,6 +48,10 @@
                                         <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">
                                             You borrowed a book " {{$book->book->name}} " from the {{$book->section->name}}'s section of the {{$book->library->name}} Library, and was given a max holding of 2 weeks.
                                             This email is to inform you that you have less than {{$daysRemaining}}days to return the book to the library as was stated during the borrowing process.
+                                            @if($warning)
+                                            <br>
+                                            <b>This is the last warning.</b>
+                                            @endif
                                         </p>
 
                                         <p style="font-family: Avenir, Helvetica, sans-serif; box-sizing: border-box; color: #74787E; font-size: 16px; line-height: 1.5em; margin-top: 0; text-align: left;">If you did not borrow  any book, no further action is required.</p>
