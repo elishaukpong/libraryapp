@@ -92,6 +92,7 @@ class LibraryBooksController extends Controller
      */
     public function show($librarySlug, $librarySectionSlug, $libraryBooksSlug)
     {
+
         $library = $this->library->whereSlug($librarySlug)->first();
         $librarySection = $library->sections()->whereSlug($librarySectionSlug)->first();
         $librarySectionBook = $librarySection->books()->whereSlug($libraryBooksSlug)->first();
@@ -170,10 +171,17 @@ class LibraryBooksController extends Controller
         $slug = str_slug($request['name']);
 
         if($request->hasFile('book_avatar')){
+
+            $previousImage = public_path() . $bookId->avatar;
+
             $image = $request->file('book_avatar');
             $imageName = $slug . '.' . time() . '.' . $image->getClientOriginalExtension();
             $request->book_avatar->storeAs('public/avatars/', $imageName);
-            // Storage::disk('public')->delete('/avatars/'.$bookId->avatar);  //not working now
+
+            if(file_exists($previousImage)){
+                unlink($previousImage);
+            }
+
             $bookId->avatar = $imageName;
         }
 

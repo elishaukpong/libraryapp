@@ -61,5 +61,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('test', function(){
     $tagId = \App\Models\Tags::all()->random(2)->pluck('id');
-    return $tagId;
+    return [storage_path('app/public'),  env('APP_URL').'/storage', public_path()];
 });

@@ -56,7 +56,7 @@
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Search</a>
+                                <a class="nav-link" href="{{route('search.index')}}">Search</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -80,7 +80,7 @@
                                     <a class="dropdown-item" href="{{ route('books.borrowed.all') }}">
                                         Borrowed Books
                                     </a>
-                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                    <a class="dropdown-item" href="#">
                                         Purchased Books
                                     </a>
 

@@ -48,7 +48,7 @@
                                 <a class="nav-link" href="{{route('library.index')}}">Libraries</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Search</a>
+                                <a class="nav-link" href="{{route('search.index')}}">Search</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -83,6 +83,11 @@
 
                                 </div>
                             </li>
+                            @if(Auth::user()->isAdmin)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{route('tags.index')}}">Tags</a>
+                            </li>
+                            @endif
                             <li class="nav-item">
                                 <a class="nav-link" href="{{route('search.index')}}">Search</a>
                             </li>

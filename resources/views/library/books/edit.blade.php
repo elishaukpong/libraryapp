@@ -62,7 +62,8 @@
                                     <div class="form-group row">
                                         <div class="col-md-12">
                                             @foreach($tags as $key => $tag)
-                                                <div class="form-check form-check-inline border border-secondary text-secondary rounded px-3 py-2">
+                                                <div class="form-check form-check-inline border rounded px-2 my-1
+                                                {{in_array($tag->id, $librarySectionBook->tags()->get()->pluck('id')->toArray()) ? 'bg-success  text-white' : 'text-secondary border-secondary'}}">
                                                     <input class="form-check-input" type="checkbox" id="inlineCheckbox{{$key}}" name="tags[]" value="{{$tag->id}}"
                                                     @if(in_array($tag->id, $librarySectionBook->tags()->get()->pluck('id')->toArray()))
                                                         checked

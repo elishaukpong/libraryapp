@@ -28,6 +28,6 @@ class LibraryBooks extends Model
     }
 
     public function getAvatarAttribute($value){
-          return 'storage/avatars/' . $value;
+          return '/storage/avatars/' . $value;
     }
 }

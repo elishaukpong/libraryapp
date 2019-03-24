@@ -18,7 +18,8 @@ class TagsController extends Controller
      */
     public function index()
     {
-        //
+        $data['tags'] = Tags::paginate(10);
+        return view('library.tags.index', $data);
     }
 
     /**
