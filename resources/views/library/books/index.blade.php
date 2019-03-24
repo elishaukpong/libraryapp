@@ -9,12 +9,19 @@
 
 <div class="row">
     @foreach($librarySectionBooks as $libraryBook)
-        <div class="col-md-4 col-12 my-4">
+        <div class="col-md-4 col-12 my-4" id="book">
             <div class="card">
                 <div class="card-body">
                     <img src="{{asset($libraryBook->avatar)}}" class="img-fluid book-display form-control" alt="">
                     <h3 class="text-center my-3">{{$libraryBook->name}}</h3>
                     <p class="text-center my-3"><span class="font-weight-bold">Book ID:</span> {{$libraryBook->book_id}}</p>
+                    {{-- @if($libraryBook->tags->count() > 0)
+                    <div class="my-2">
+                        @foreach($libraryBook->tags as $tag)
+                            <a class="btn btn-sm border border-secondary">{{$tag->name}}</a>
+                        @endforeach
+                    </div>
+                    @endif --}}
                     <a href="{{route('books.show', [$librarySection->library->slug, $librarySection->slug, $libraryBook->slug])}}" class="btn btn-sm btn-primary form-control">See More</a>
 
                 </div>

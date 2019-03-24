@@ -3,7 +3,6 @@
 @section('content')
 <div class="jumbotron text-center my-4">
     <h1>Borrowed Books</h1>
-
 </div>
 
 <div class="row">

@@ -66,18 +66,19 @@ class LibraryBooksController extends Controller
         $slug = str_slug($request['name']);
         $imageName = $slug . '.' . time() . '.' . $image->getClientOriginalExtension();
 
-
         $book = new LibraryBooks;
+        $book->library_section_id = $librarySection->id;
         $book->name = $request->name;
         $book->description = $request->description;
         $book->slug = $slug;
         $book->book_id = str_random(5) . rand(10, 90);
         $book->avatar = $imageName;
         $book->availableCopies = $request->availableCopies;
-
         $request->book_avatar->storeAs('public/avatars/', $imageName);
-
-        $librarySection->books()->save($book);
+        $book->save();
+        if($request->has('tags')){
+            $book->tags()->attach($request->tags);
+        }
 
         Session::flash('success', 'Book Created!');
         return redirect()->route('section.show',[$librarySection->library->slug,$librarySection->slug]);
@@ -180,6 +181,10 @@ class LibraryBooksController extends Controller
         $bookId->description = $request->description;
         $bookId->slug = $slug;
         $bookId->availableCopies = $request->availableCopies;
+        if($request->has('tags')){
+            $bookId->tags()->sync($request->tags);
+        }
+
         $bookId->update();
 
         Session::flash('success', 'Book Updated!');

@@ -23,6 +23,10 @@ class LibraryBooks extends Model
         return $this->hasMany('App\Models\BorrowBooks', 'book_id');
     }
 
+    public function tags(){
+        return $this->BelongsToMany('App\Models\Tags', 'library_books_tags', 'library_book_id', 'tag_id');
+    }
+
     public function getAvatarAttribute($value){
           return 'storage/avatars/' . $value;
     }

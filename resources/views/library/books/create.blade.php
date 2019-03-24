@@ -61,9 +61,9 @@
                                 @if($tags->count() > 0)
                                     <div class="form-group row">
                                         <div class="col-md-12">
-                                            <p>Tags</p>
+                                            {{-- <p>Tags</p> --}}
                                             @foreach($tags as $key => $tag)
-                                                <div class="form-check form-check-inline border border-secondary text-secondary rounded px-3 py-2">
+                                                <div class="form-check form-check-inline border border-secondary text-secondary rounded my-1 btn-sm">
                                                     <input class="form-check-input" type="checkbox" id="inlineCheckbox{{$key}}" name="tags[]" value="{{$tag->id}}">
                                                     <label class="form-check-label" for="inlineCheckbox{{$key}}">{{$tag->name}}</label>
                                                 </div>

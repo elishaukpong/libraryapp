@@ -18,9 +18,19 @@
 
                 <div id="{{$librarySectionBook->slug}}" class="my-3">
                     <p>{{$librarySectionBook->description}}</p>
+                    <p><span class="font-weight-bold">Book ID:</span> {{$librarySectionBook->id}}</p>
                     <p><span class="font-weight-bold">Book ID:</span> {{$librarySectionBook->book_id}}</p>
                     <p><span class="font-weight-bold">Copies Available:</span> {{$librarySectionBook->availableCopies}}</p>
                     <p><span class="font-weight-bold">Copies Borrowed:</span> {{$librarySectionBook->borrowedCopies}}</p>
+                    @if($librarySectionBook->tags->count() > 0)
+                        <div class="my-2">
+                            <p class="font-weight-bold">Tags:</p>
+                            @foreach($librarySectionBook->tags as $tag)
+                                <a class="btn btn-sm border border-secondary">{{$tag->name}}</a>
+                            @endforeach
+                        </div>
+                        <br><br>
+                    @endif
 
                     <a href="{{route('books.borrow', [$library->slug, $librarySection->slug,  $librarySectionBook->slug])}}" class="btn btn-sm btn-success px-4">Borrow</a>
                     <a href="#" class="btn btn-sm btn-primary px-4">Purchase</a>

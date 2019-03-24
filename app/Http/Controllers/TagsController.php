@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Tags;
+use Session;
+use App\Models\Tags;
 use Illuminate\Http\Request;
 
 class TagsController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth', 'admin', 'verified']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +39,15 @@ class TagsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'string | required'
+        ];
+
+        $this->validate($request, $rules);
+        Tags::create($request->except(['_token']));
+
+        Session::flash('success', 'Tag Created!');
+        return redirect()->route('tags.index');
     }
 
     /**
